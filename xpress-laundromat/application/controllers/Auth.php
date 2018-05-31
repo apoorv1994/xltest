@@ -3,6 +3,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Auth extends CI_Controller {
     public function __construct()
     {
+        //echo 'hiii <br>';
         parent::__construct(); 
         $this->load->library('users');
     }
@@ -39,7 +40,7 @@ class Auth extends CI_Controller {
         }
         $this->_is_logged();
         
-        
+        echo "hiiii <br>";
         $pagedata['title']='Login';
         $pagedata['colleges'] = $this->db->get_where('tbl_college',['status'=>1])->result();
         $this->load->view('header_vw',$pagedata);
@@ -51,6 +52,14 @@ class Auth extends CI_Controller {
     {
         $user = $this->londury->check_order_history(1);
         echo json_encode($user);
+    }
+
+    function getCollegeId()
+    {
+
+      $college_info = $this->select('college_id,Longitude,Latitude,Radius')->where(['status'=> 1])->get('tbl_college')->result();
+
+      echo json_encode(["collegeinfo"=>$college_info]) ;
     }
 
     function wallet_correct() 
@@ -98,7 +107,7 @@ class Auth extends CI_Controller {
         if($this->form_validation->run())
         {
             $username=  $this->input->post('email');
-            $password= md5($this->input->post('password'));
+            $password= ($this->input->post('password'));               // md5 was here
             $log_check=$this->_login($username, $password);
             if($log_check['status'])
             {
@@ -160,6 +169,7 @@ class Auth extends CI_Controller {
     
     function signup()
     {
+        echo "again hiii <br>";
         $this->_is_logged();
         $this->form_validation->set_rules('firstname', 'First Name', 'trim|required|alpha_numeric_spaces|xss_clean');
         //$this->form_validation->set_rules('lastname', 'Last Name', 'trim|required|alpha_numeric_spaces|xss_clean');
@@ -477,6 +487,7 @@ class Auth extends CI_Controller {
         //get email suffix
         $suffix = $this->londury->get_suffix($id);
         $res = $this->londury->get_hostel($id);
+        //print_r("expression <br>");
         if($res)
         {
             echo json_encode(['status'=>TRUE,'data'=>$res,'suffix'=>$suffix]);
@@ -520,6 +531,14 @@ class Auth extends CI_Controller {
         $this->load->view('footer_vw');
     }
     
+    function location()
+    {
+        $pagedata['title'] = 'Location';
+        $this->load->view('header_vw',$pagedata);
+        $this->load->view('auth/location_vw');
+        $this->load->view('footer_vw');        
+    }
+
     function about()
     {
         $pagedata['title'] = 'About US';

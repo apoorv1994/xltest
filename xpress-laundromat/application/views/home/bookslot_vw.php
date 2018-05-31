@@ -37,7 +37,6 @@ else
 	$finalAmount= $last_order->total_amount+$last_order->sc_SGST+$last_order->sc_CGST+$last_order->sc_IGST-$last_order->discount;
 }
 
-
 ?>
 <link rel="stylesheet" href="<?=BASE?>assets/css/circle.css">
 <!-- START CONTAINER FLUID -->
@@ -103,9 +102,9 @@ else
             </div>
             <div class="col-xs-6 col-sm-4 text-center no-padding p-t-20 p-b-40">
                 <img class=" text-center" src="<?=BASE?>assets/img/loc.png" />
-                <span class="bold col-sm-12 col-xs-12 m-t-10">PICK UP</span>
+                <span class="bold col-sm-12 col-xs-12 m-t-10">PICK UPP</span>
                 <div class="col-sm-12"><?=date('d/m/Y',$last_order->book_date)?></div>
-                <div  class="col-sm-12 no-padding"><?=$hslots[$last_order->book_slot]?></div>
+                <div  class="col-sm-12 no-padding"><?=$u_pickup_t[$last_order->book_slot]?></div>
             </div>
             <div class="col-xs-12 col-sm-4 p-t-10 p-b-10 text-center">
                 <label class=" label margin-bottom-10 label-<?=$bclass?> visible-sm visible-xs"><?=$text?></label>
@@ -129,8 +128,9 @@ else
             <div class="col-sm-4 text-center no-padding p-t-20 p-b-40">
                 <img class=" text-center" src="<?=BASE?>assets/img/bus.png" />
                 <span class="bold col-sm-12">DELIVERY</span>
-                <div class="col-sm-12"><?=$last_order->dropoff_time?date('d/m/Y',$last_order->dropoff_time):date('d/m/Y',($last_order->book_date + 48*60*60))?></div>
-                <div  class="col-sm-12 no-padding"><?=$last_order->dropoff_time?date('h:i A',$last_order->dropoff_time).' - '.date('h:i A',$last_order->dropoff_time + 3*3600):$hslots[$last_order->book_slot]?></div>
+                <div class="col-sm-12"><?=date('d/m/Y',$u_delivery_date)?></div>
+
+                <div  class="col-sm-12 no-padding"><?=$u_pickup_t[$last_order->book_slot]?></div>
             </div>
             <?php }else{?>
                 <h3 class="col-sm-12 text-center  p-t-80 p-b-80"> Welcome to Xpress Laundromat </h3>
