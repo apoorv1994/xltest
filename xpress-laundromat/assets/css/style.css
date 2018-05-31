@@ -1,0 +1,274 @@
+/*
+
+* Override Pages default styles or create your own styles here
+
+*/
+.home-header{
+    background: #F8F8F8; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(#fbfbfb, #FFFFFF); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#fbfbfb, #FFFFFF); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#fbfbfb, #FFFFFF); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#fbfbfb, #FFFFFF); /* Standard syntax */
+    
+}
+.err{color: red; font-size: 10px;}
+.success{color: green;font-size: 10px;}
+.head-text{padding: 20px 0px;}
+.bigger{font-size: 45px;color: #333388;}
+.bigger2{font-size: 45px;color: #4d49be;}
+.padding-bottom-10{padding-bottom: 10px;}
+.padding-bottom-20{padding-bottom: 20px;}
+.padding-top-10{padding-top: 10px;}
+.padding-top-20{padding-top: 20px;}
+.padding-top-60{padding-top: 60px;}
+.padding-bottom-60{padding-bottom: 60px;}
+.p-t-40{padding-top: 40px;}
+.p-b-40{padding-bottom: 40px;}
+.p-l-15{padding-left: 15px;}
+.p-t-15{padding-top: 15px;}
+.p-l-46{padding-left: 46px;}
+.m-t-100{margin-top: 100px;}
+.padding-bottom-72{padding-bottom: 72px;}
+.margin-bottom-20{margin-bottom: 20px;}
+.margin-bottom-60{margin-bottom: 60px;}
+.margin-top-60{margin-top: 60px;}
+.m-b-40{margin-bottom: 40px;}
+.margin-top-5{margin-top: 5px;}
+.margin-top-10{margin-top: 10px;}
+.margin-top-20{margin-top: 20px;}
+.margin-bottom-10{margin-bottom: 10px;}
+.no-l-pad{padding-left: 0px;}
+.no-r-pad{padding-right: 0px;}
+.banner2-text{position: absolute;right: 100px;top: 18%; color: #fff;}
+.banner2-text h3{color: #fff;}
+.banner3{padding: 50px 0px;}
+.hicon{line-height: 35px; background-position:left; background-repeat: no-repeat; padding-left: 45px;}
+.clean-icon{background-image: url(../img/brush.png);}
+.wash-icon{background-image: url(../img/shirt.png);}
+.shoe-icon{background-image: url(../img/washing.png); }
+.color-blue{color: #333388; font-weight: bold; text-transform: uppercase;}
+.testimonial{background-color: #f4f4f4; padding: 50px 0px;}
+.footer-link{list-style: none;}
+.footer-link a{ color: #666;}
+.subscribe-input{background-color: #ffffff;background-image: none;border: 1px solid rgba(0, 0, 0, 0.07);-webkit-appearance: none;color: #2c2c2c;
+outline: 0;
+height: 35px;
+padding: 9px 9px;
+line-height: normal;
+font-size: 14px;
+font-weight: normal;
+vertical-align: middle;
+min-height: 35px;
+width: 60%;
+}
+.social-link{
+    list-style: none;
+}
+.social-link li{float: left;}
+.social-link a{color: #fff; padding:6px 12px; }
+.twitter{background-color: #0099ff;}
+.flickr{background-color: #0063dc;}
+.facebook{background-color: #006699;}
+.google{background-color: #dd4b39;}
+.pinterest{background-color: #c8232c;}
+.signin,.signup{
+    z-index: 9;
+    background: #F8F8F9;
+    position: absolute;
+    top:15%;
+    right: 8%;
+    border-top: 8px solid #f2f2f2;
+    padding: 30px 20px;
+}
+.signup{display: none;}
+.booknow{padding:  20px 20px 8px;background: #333388;margin-top: -10px;}
+.booknow a{color: #fff;}
+/*.signup .select2-chosen{color: #D5D5D5;}*/
+.big{font-size: 18px;}
+.loginbtn,.signupbtn{ background-color:#333388; text-align: left;color: #fff !important; }
+.rechargeBtn,.rechargeBtn:hover,.rechargeBtn:visited{background-color:#A2CB38; text-align: center;color: #fff !important; text-transform: uppercase;}
+.slottop{ padding-top: 10px; padding-bottom: 10px; }
+.volet-bg{background-color:#333388; min-height: 50px;z-index: 9; }
+.bookmenu{padding-top: 20px; padding-bottom: 20px; border-right: 1px solid #ccc; text-align: center;color: #424242; text-transform: uppercase; font-size: 16px; cursor: pointer;}
+.first-slot{border-left: 1px solid #ccc;}
+.bookmenu img{height:20px;}
+.bookmenu:hover,.current-slot{background-color: #333388;box-shadow: 0px 2px 3px black; color: #fff}
+.slotbox{background-color: #cdcdd1;}
+.slotday,.noslotday{padding-top: 20px;border-bottom: 1px solid #ccc; padding-bottom: 20px; border-right: 1px solid #ccc; text-align: center;background-color: #FFF;color: #747474; text-transform: uppercase;  cursor: pointer;}
+.noslotday.last{ border-right: none; cursor: auto;}
+.slotday:hover,.slotcurrent{background-color: #333388; color: #fff;}
+.border-right{border-right: 1px solid #ccc;}
+.qtyminus,.qtyplus,.qtyminus1,.qtyplus1{background: transparent;border: none;font-size: 20px;font-weight: bold;}
+.qty{border-radius: 50%;width: 25px;text-align: center;border: none;background: #efecec;height: 25px;}
+.qtybox{background-color: #f5f5f5; padding-left: 20px;}
+.proceed{background-color: #333388;color: #fff; cursor: pointer; font-size: 20px; font-weight: 700}
+.disable{cursor: not-allowed;}
+.bg-voilet{background-color: #4d49be; height: 70px;}
+.wallet-panel{margin-top: 35px;}
+.wallet-price{font-size: 26px;}
+.linehieght-30{line-height: 30px;}
+.btn-wallet{background-color: #A2CB38;border-color: #A2CB38;}
+.btn-wallet:focus,
+.btn-wallet.focus {
+  color: #fff;
+  background-color: #A2CB38;
+  border-color: #A2CB38;
+}
+.btn-wallet:hover {
+  color: #fff;
+  background-color: #A2CB38;
+  border-color: #A2CB38;
+}
+.upinfo a:hover,.upinfo a:visited{color: #fff;background-color:#333388;}
+#order_history{display: none;}
+.bg-book{background-color: #fff;}
+.slot:hover,.selected_slot{ cursor: pointer;background-color: #333388; color: #fff;}
+.a1,.a2,.a3,.a4{color: #fff; height: 45px; padding: 10px;border-right: 1px solid #fff; text-transform: uppercase;}
+.a1 span,.a2 span,.a3 span,.a4 span{padding-left: 20px;
+padding-top: 3px;
+float: left;
+font-size: 17px;
+}
+.a1 i,.a2 i,.a3 i,.a4 i{padding-top: 6px;}
+.a1{background-color: #26C1DF;}
+.a2{background-color: #24B5D1;}
+.a3{background-color: #20A5BF;}
+.a4{background-color: #1691A9;}
+.teamimg{height: 200px; width: 100%;}
+.toggle,.toggle1{display: none;}
+.border-left{border-left: 1px solid #747474;}
+/*some basic styles*/
+		.rating {font-size:15px !important; display:inline-block}
+		.rating__button {    width: 32px;height: 30px;display:inline-block}
+		.rating__star {width:100%;height:100%;fill:#fff}
+
+		/*intial hover state*/
+		.rating:hover .rating__star,
+		/*preserve state after rating the first time*/
+		.rating.has--rating .rating__star {fill:orange}
+
+		/*intial hover state*/
+		.rating__button:hover ~ .rating__button .rating__star,
+		/*preserve state after rating the first time*/
+		.rating__button.is--active ~ .rating__button .rating__star {fill:#fff}
+
+		/*SUBSEQUENT RATING ATTEMPTS LOGIC*/
+
+		/*
+		  lightgray signifies that you're giving a lower rating than before.
+			we're gonna make lightgray all the stars that the user takes away.
+		*/
+		.rating.has--rating:hover .rating__button:hover ~ .rating__button .rating__star {fill:lightgray}
+
+		/*make everything after the current active star orange*/
+		.rating.has--rating:hover .rating__button.is--active ~ .rating__button .rating__star {fill:orange}
+
+		/*make everything after the currently hovered star white*/
+		.rating.has--rating:hover .rating__button:hover ~ .rating__button.is--active ~ .rating__button .rating__star,
+		.rating.has--rating:hover .rating__button.is--active:hover ~ .rating__button .rating__star,
+		.rating.has--rating:hover .rating__button.is--active ~ .rating__button:hover ~ .rating__button .rating__star {fill:#fff}
+                .quote {
+    color: rgba(0,0,0,.1);
+    text-align: center;
+    margin-bottom: 30px;
+}#fade-quote-carousel.carousel {
+  padding-bottom: 60px;
+}
+#fade-quote-carousel.carousel .carousel-inner .item {
+  opacity: 0;
+  -webkit-transition-property: opacity;
+      -ms-transition-property: opacity;
+          transition-property: opacity;
+}
+#fade-quote-carousel.carousel .carousel-inner .active {
+  opacity: 1;
+  -webkit-transition-property: opacity;
+      -ms-transition-property: opacity;
+          transition-property: opacity;
+}
+#fade-quote-carousel.carousel .carousel-indicators {
+  bottom: 10px;
+}
+#fade-quote-carousel.carousel .carousel-indicators > li {
+  background-color: #e84a64;
+  border: none;
+}
+#fade-quote-carousel blockquote {
+    text-align: center;
+    border: none;
+}
+#fade-quote-carousel .profile-circle {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    border-radius: 100px;
+}
+.service-box{box-shadow: 0px 2px 15px #c1c1c1;padding: 2%;background: #fff; margin-right: 50px}
+.service-box img{width: 100%;
+margin: 0 5% 5% 0;
+height: 166px;
+}
+
+.bg-white-custom {
+  background: #fff;
+
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16),0 0 0 1px rgba(0,0,0,0.08)
+}
+
+.options{margin-top: 20px;
+padding-top: 15px;
+border-bottom: 1px solid #ccc;
+font-weight: bolder;
+background: #fff; padding: 10px; margin: 0px
+}
+
+
+.bg-white-custom h3{
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 700;
+  background: #dedede;
+  padding: 15px;
+  margin: 0;
+
+}
+#day{
+  background: #dedede
+}
+.qtybox, .box{
+                      box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16),0 0 0 1px rgba(0,0,0,0.08);
+                    }
+a{
+  color: #333388 !important;
+}
+
+.size40{width: 40%;}
+                @media only screen and (max-width: 700px) {
+                    .signin, .signup{position: relative;right: auto;}
+                    .banner2-text{right: 0px; padding-right: 5px; position: relative;   z-index: 9;color: #000;}
+                    .bigger{font-size: 25px;}
+                    .banner2-text h3{color: #000;}
+                    .hicon{    background-color: #4d49be;padding: 10px;color: #fff;text-align: center;background-position-x: 10px;}
+                    .banner3{z-index: 9;}
+                    /*.box{ margin-top: 0px !important }*/
+                    #footer{text-align: center;}
+                    .page-container {padding-left: 0px !important; ;
+                    overflow: scroll;
+                                  }
+                                  .bookmenu{border-bottom: 1px solid #ccc; !image-rendering: }
+                    #statusbar{border:none; border-top: 1px solid #c2c0c0;}
+                    #walletcnt{border: none;}
+                    #order_history,#historyTbl{overflow-x: scroll;}
+                    #walletbtn{padding-left: 10px;}
+                    .container{text-align: center;padding: 0px;}
+                    .img-responsive{display: initial;}
+                    .pdata{text-align: left;}
+                    #day{margin: 10px;}
+                    #service{margin: 10px;}
+                    #day .days{
+                      box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16),0 0 0 1px rgba(0,0,0,0.08);
+                    }
+                    .slot{border-bottom: 1px solid #ccc !important;}
+                    #dayopen{margin: 40px 0px; box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16),0 0 0 1px rgba(0,0,0,0.08);}
+                }
+

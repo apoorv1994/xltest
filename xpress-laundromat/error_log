@@ -1,0 +1,25 @@
+[18-Jul-2017 13:18:04 Asia/Kolkata] PHP Fatal error:  Can't use method return value in write context in /home/xpresslaundromat/public_html/application/controllers/panel/Orders.php on line 118
+[18-Jul-2017 13:18:10 Asia/Kolkata] PHP Fatal error:  Can't use method return value in write context in /home/xpresslaundromat/public_html/application/controllers/panel/Orders.php on line 118
+[18-Jul-2017 13:18:33 Asia/Kolkata] PHP Fatal error:  Can't use method return value in write context in /home/xpresslaundromat/public_html/application/controllers/panel/Orders.php on line 118
+[18-Jul-2017 07:49:00 UTC] PHP Fatal error:  Can't use method return value in write context in /home/xpresslaundromat/public_html/application/controllers/panel/Orders.php on line 118
+[24-Jul-2017 23:31:38 Asia/Kolkata] PHP Parse error:  syntax error, unexpected end of file in /home/xpresslaundromat/public_html/application/models/Londury.php on line 386
+[28-Jul-2017 13:42:39 Asia/Kolkata] PHP Fatal error:  Call to undefined method Functions::get_alldate_byday() in /home/xpresslaundromat/public_html/application/controllers/panel/Home.php on line 493
+[28-Jul-2017 13:42:47 Asia/Kolkata] PHP Fatal error:  Call to undefined method Functions::get_alldate_byday() in /home/xpresslaundromat/public_html/application/controllers/panel/Home.php on line 493
+[28-Jul-2017 13:42:58 Asia/Kolkata] PHP Fatal error:  Call to undefined method Functions::get_alldate_byday() in /home/xpresslaundromat/public_html/application/controllers/panel/Home.php on line 493
+[28-Jul-2017 13:43:15 Asia/Kolkata] PHP Fatal error:  Call to undefined method Functions::get_alldate_byday() in /home/xpresslaundromat/public_html/application/controllers/panel/Home.php on line 493
+[28-Jul-2017 13:43:22 Asia/Kolkata] PHP Fatal error:  Call to undefined method Functions::get_alldate_byday() in /home/xpresslaundromat/public_html/application/controllers/panel/Home.php on line 493
+[28-Jul-2017 13:43:22 Asia/Kolkata] PHP Fatal error:  Call to undefined method Functions::get_alldate_byday() in /home/xpresslaundromat/public_html/application/controllers/panel/Home.php on line 493
+[28-Jul-2017 13:43:22 Asia/Kolkata] PHP Fatal error:  Call to undefined method Functions::get_alldate_byday() in /home/xpresslaundromat/public_html/application/controllers/panel/Home.php on line 493
+[28-Jul-2017 13:43:40 Asia/Kolkata] PHP Fatal error:  Call to undefined method Functions::get_alldate_byday() in /home/xpresslaundromat/public_html/application/controllers/panel/Home.php on line 493
+[28-Jul-2017 13:43:42 Asia/Kolkata] PHP Fatal error:  Call to undefined method Functions::get_alldate_byday() in /home/xpresslaundromat/public_html/application/controllers/panel/Home.php on line 493
+[28-Jul-2017 14:26:03 Asia/Kolkata] PHP Fatal error:  Call to undefined method Functions::get_alldate_byday() in /home/xpresslaundromat/public_html/application/controllers/panel/Home.php on line 493
+[28-Jul-2017 14:27:03 Asia/Kolkata] PHP Fatal error:  Call to undefined method Functions::get_alldate_byday() in /home/xpresslaundromat/public_html/application/controllers/panel/Home.php on line 493
+[28-Jul-2017 14:27:11 Asia/Kolkata] PHP Fatal error:  Call to undefined method Functions::get_alldate_byday() in /home/xpresslaundromat/public_html/application/controllers/panel/Home.php on line 493
+[28-Jul-2017 14:27:11 Asia/Kolkata] PHP Fatal error:  Call to undefined method Functions::get_alldate_byday() in /home/xpresslaundromat/public_html/application/controllers/panel/Home.php on line 493
+[28-Jul-2017 14:27:12 Asia/Kolkata] PHP Fatal error:  Call to undefined method Functions::get_alldate_byday() in /home/xpresslaundromat/public_html/application/controllers/panel/Home.php on line 493
+[28-Jul-2017 14:27:12 Asia/Kolkata] PHP Fatal error:  Call to undefined method Functions::get_alldate_byday() in /home/xpresslaundromat/public_html/application/controllers/panel/Home.php on line 493
+[28-Jul-2017 14:27:13 Asia/Kolkata] PHP Fatal error:  Call to undefined method Functions::get_alldate_byday() in /home/xpresslaundromat/public_html/application/controllers/panel/Home.php on line 493
+[28-Jul-2017 14:27:13 Asia/Kolkata] PHP Fatal error:  Call to undefined method Functions::get_alldate_byday() in /home/xpresslaundromat/public_html/application/controllers/panel/Home.php on line 493
+[28-Jul-2017 14:27:13 Asia/Kolkata] PHP Fatal error:  Call to undefined method Functions::get_alldate_byday() in /home/xpresslaundromat/public_html/application/controllers/panel/Home.php on line 493
+[28-Jul-2017 17:43:45 Asia/Kolkata] PHP Fatal error:  Call to undefined method Functions::get_alldate_byday() in /home/xpresslaundromat/public_html/application/controllers/panel/Home.php on line 493
+[28-Jul-2017 17:46:25 Asia/Kolkata] PHP Fatal error:  Call to undefined method Functions::get_alldate_byday() in /home/xpresslaundromat/public_html/application/controllers/panel/Home.php on line 493

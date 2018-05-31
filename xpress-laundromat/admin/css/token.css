@@ -1,0 +1,51 @@
+body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        background-color: #FAFAFA;
+        font: 9pt "Tahoma";
+    }
+    * {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+    }
+    .page {
+        width: 1in;
+        min-height: 1in;
+        padding: 0;
+        margin: 0 auto;
+        border: 1px #D3D3D3 solid;
+        border-radius: 5px;
+        background: white;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+    .subpage {
+        text-align: center;
+        padding: 10px 1px;
+        margin-top: 0px;
+        border: 1px #EDEDED solid;
+        height: 1in;
+        outline: 0cm #FFEAEA solid;
+    }
+    
+    @page {
+        size:1in;
+        margin: 0;
+    }
+    @media print {
+        html, body {
+            width: 1in;
+            height: 1in;        
+        }
+        .page {
+            margin: 0;
+            border: initial;
+            border-radius: initial;
+            width: initial;
+            min-height: initial;
+            box-shadow: initial;
+            background: initial;
+            page-break-after: always;
+        }
+    }

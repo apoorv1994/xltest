@@ -1,0 +1,85 @@
+body.login{
+	background: #37BC9B;
+	padding: 0;
+}
+body.lock{
+	padding: 0;
+}
+.login-header{
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
+	height: 200px;
+	background: rgba(0,0,0,0.07);
+}
+.login-header.dark{
+	background: rgba(0,0,0,0.2);
+}
+.login-header .logo{
+	margin-top: 20px;
+	width: auto;
+	max-width: 200px;
+        padding-top: 3%
+
+}
+.login-wrapper{
+	width: 100%;
+	max-width: 300px;
+	margin: 215px auto 0;
+	color: #fff;
+	padding: 0 0 30px 0;
+}
+.login-wrapper a,
+.login-wrapper a:hover,
+.login-wrapper a:focus{
+	color: #fff;
+}
+.login-wrapper .avatar-lock{
+	width: 110px;
+	height: 110px;
+}
+.login-wrapper h4{
+	color: #fff;
+}
+.login-wrapper .error-number{
+	color: #fff;
+	font-size: 80px;
+	text-align: center;
+	font-weight: 700;
+}
+
+.has-feedback.no-label .form-control-feedback {top: 0px;}
+.has-feedback.no-label.lg .form-control-feedback {top: 7px;}
+.has-feedback.left-feedback .form-control-feedback {
+	left: 0;
+	right: auto;
+}
+.has-feedback.left-feedback.lg .form-control-feedback {
+	left: 3px;
+}
+.form-control-feedback{color: #AAB2BD;}
+.has-success .form-control-feedback {color: #8CC152;}
+.has-warning .form-control-feedback {color: #F6BB42;}
+.has-error .form-control-feedback {color: #E9573F;}
+.has-feedback.left-feedback .form-control {
+    padding-left: 35.5px;
+    padding-right: 0px;
+}
+.form-control.rounded {
+    border-radius: 4px;
+}
+.form-control.no-border {
+    border: medium none;
+}
+.has-feedback .form-control-feedback{
+    position: absolute;
+top: 25px;
+right: 0px;
+display: block;
+width: 34px;
+height: 34px;
+line-height: 34px;
+text-align: center;
+}
+.sort{cursor: pointer;}
