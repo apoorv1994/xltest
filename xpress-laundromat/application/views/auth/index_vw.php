@@ -50,7 +50,7 @@
                                     <small class="col-xs-12 col-sm-12 no-padding" id="dob_err"></small>
                                 </div>
                                 <div class="col-xs-12 col-sm-6 no-padding margin-top-10">
-                                    <select class="form-control select2" name="gender">
+                                    <select class="form-control select2" id = "gender" name="gender">
                                     <option value="">Gender*</option>
                                     <option value="1">Male</option>
                                     <option value="2">Female</option>
@@ -112,7 +112,7 @@
                                 <small class="col-xs-12 col-sm-12 no-padding" id="terms_err"></small>
                             </div>
                             <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
-                                <button type="button" class="form-control signupbtn" id="signupbtn" name="signup">SIGN UP <i class="fa fa-arrow-right pull-right" id="loader"></i></button>
+                                <button type="button" class="form-control signupbtn" id="signupbtn" name="signup" onclick="get_college_details()">SIGN UP <i class="fa fa-arrow-right pull-right" id="loader"></i></button>
                                 <small id="main_err"></small>
                             </div>
                         </div>
@@ -328,6 +328,12 @@ way to clean my clothes without stress.</p>
           <script src="<?=BASE?>assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" ></script>
           <script src="<?=BASE?>assets/plugins/moment/moment.min.js"></script>
           <script>
+            function get_id()
+            {
+
+            }
+          </script>
+          <script>
               $(document).ready(function(){
                   
                   $('#emailprefix,#emailsuffix').keyup(function(){
@@ -338,7 +344,11 @@ way to clean my clothes without stress.</p>
                   })
                   $('#showsignup').click(function(){
                       $('.signin').hide('fade');
-                      $('.signup').show('fade')
+                      $('.signup').show('fade');
+                      //var url = '<?=BASE?>auth/get_college_info';
+                      //var clg_id = get_id();
+                      $('#college_id').val('3');   // for automatically assigning the college
+                      $('#college_id').change()
                   });
                   $('#showlogin').click(function(){
                       $('.signin').show('fade');
@@ -351,45 +361,13 @@ way to clean my clothes without stress.</p>
                   });
                   $('.select2').select2();
                   
-                  $('#college_id').change(function(){
-                      $('#emailprefix').val('');
-                      $('#emailid').val('');
-                        var id = $(this).val();
-                        var url = '<?=BASE?>auth/get-hostel/'+id;
-                        $.get(url,function(success){
-                            var opt ='';
-                            var res = JSON.parse(success);
-                            if(res.status)
-                            {
-                                var len = res.data.length;
-                                for(var i=0;i<len;i++)
-                                {
-                                    opt+='<option value="'+res.data[i].id+'">'+res.data[i].hostel_name+'</option>';
-                                }
-                                $('#hostel_id').html(opt);
-                                if(res.suffix){
-                                    if(id==3){
-                                       // $('#emailsuffix').removeAttr('readonly');
-                                    }
-                                    else{
-                                        //$('#emailsuffix').prop('readonly',true);
-                                    }
-                                $('#emailsuffix').val(res.suffix);
-                                }else{
-                                    $('#emailsuffix').val('');
-                                }
-                            }
-                            else{
-                                $('#hostel_id').html('<option value="">Select Hostel*</option>');
-                                $('.select2').select2();
-                                $('#emailsuffix').val('');
-                            }
-                      })
-                  });
+                                   
+                  
                   //for registration 
                   $('.signupbtn').click(function(){
                       $('#loader').addClass('fa-spin fa-spinner');
                       $('#main_err').html('');
+                      
                       var url = '<?=BASE?>auth/signup';
                       var data = $('#signupFrm').serialize();
                       $.post(url,data,function(success){
@@ -414,6 +392,7 @@ way to clean my clothes without stress.</p>
                             }
                       })
                   });
+                  
                   //for login
                   $('.loginbtn').click(function(){
                       $('#loader_log').addClass('fa-spin fa-spinner');

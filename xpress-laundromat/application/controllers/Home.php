@@ -15,6 +15,9 @@ class Home extends CI_Controller {
         $last_order = $this->last_order();
         $pagedata['last_order'] = $last_order['last_order'];
         
+        $pagedata['u_pickup_t'] = $last_order['pickup_t'];
+        $pagedata['u_delivery_date'] = $last_order['shop_close_date'];
+
         $pagedata['hslots'] = $last_order['slots'];
         $pagedata['droptime'] = '';
         $pagedata['details'] = $this->users->get_user('firstname,wallet_balance,profile_pic,phone_no,room_no,college_id,hostel_id',  $this->session->user_id);
@@ -62,7 +65,10 @@ class Home extends CI_Controller {
         $pagedata['drycleaning'] = 'current-slot';
         $last_order = $this->last_order();
         $pagedata['last_order'] = $last_order['last_order'];
-        
+
+        $pagedata['u_pickup_t'] = $last_order['u_pickup_t'];
+        $pagedata['u_close_shop'] = $last_order['shop_close_date'];
+
         $pagedata['hslots'] = $last_order['slot'];
         $pagedata['details'] = $this->users->get_user('firstname,profile_pic,wallet_balance,phone_no,room_no,college_id,hostel_id',  $this->session->user_id);
         $pagedata['hostel_details'] = $this->londury->get_hostel_detail($pagedata['details']->hostel_id);
@@ -81,6 +87,9 @@ class Home extends CI_Controller {
         $pagedata['individual'] = 'current-slot';
         $last_order = $this->last_order();
         $pagedata['last_order'] = $last_order['last_order'];
+
+        $pagedata['u_pickup_t'] = $last_order['pickup_t'];
+        $pagedata['u_delivery_date'] = $last_order['shop_close_date'];
         
         $pagedata['hslots'] = $last_order['slot'];
         $pagedata['details'] = $this->users->get_user('firstname,profile_pic,wallet_balance,phone_no,room_no,college_id,hostel_id',  $this->session->user_id);
@@ -100,6 +109,9 @@ class Home extends CI_Controller {
         $pagedata['shoelaundry'] = 'current-slot';
         $last_order = $this->last_order();
         $pagedata['last_order'] = $last_order['last_order'];
+
+        $pagedata['u_pickup_t'] = $last_order['pickup_t'];
+        $pagedata['u_delivery_date'] = $last_order['shop_close_date'];
         
         $pagedata['hslots'] = $last_order['slot'];
         $pagedata['details'] = $this->users->get_user('firstname,profile_pic,wallet_balance,phone_no,room_no,college_id,hostel_id',  $this->session->user_id);
@@ -119,28 +131,79 @@ class Home extends CI_Controller {
     {
         $last_order = $this->londury->get_user_last_order();
         $slots = $this->londury->get_slot($this->session->college_id);
+        $res = $this->db->select('value')->where(['options'=> 'shop_close','college_id'=>$this->session->college_id])->get('tbl_settings')->result();
         $newarr = [];
+        $pickup = [];
+
+        $shop_close_d = $this->get_delivery_date($last_order->book_date,$res,$last_order->order_type);
+       
         foreach($slots as $slot)
         {
             switch($slot->slot_type)
             {
                 case 'Morning':
                     $newarr[1]=date('H:s A',strtotime($slot->start_time)).' - '.date('H:s A',strtotime($slot->end_time));
+                    $pickup[1]= date('H:s A',strtotime($slot->pickup_time));
                     break;
                 case 'Afternoon':
                     $newarr[2]=date('H:s A',strtotime($slot->start_time)).' - '.date('H:s A',strtotime($slot->end_time));
+                    $pickup[2]= date('H:s A',strtotime($slot->pickup_time));
                     break;
                 case 'Evening':
                     $newarr[3]=date('H:s A',strtotime($slot->start_time)).' - '.date('H:s A',strtotime($slot->end_time));
+                    $pickup[3]= date('H:s A',strtotime($slot->pickup_time));
                     break;
                 case 'Night':
                     $newarr[4]=date('H:s A',strtotime($slot->start_time)).' - '.date('H:s A',strtotime($slot->end_time));
+                    $pickup[4]= date('H:s A',strtotime($slot->pickup_time));
                     break;
                 
             }
         }
-        return ['last_order'=>$last_order,'slots'=>$newarr];
+        return ['last_order'=>$last_order,'slots'=>$newarr,'pickup_t'=>$pickup,'shop_close_date'=>$shop_close_d];
     }
+
+function get_delivery_date($book,$close_info,$type)
+{
+    $temp_del = 0;
+    if($type!='3'){
+        $temp_del = $book + 2*24*3600;
+    }
+    else{
+        $temp_del = $book + 5*24*3600;
+    }
+    $temp_close_info = $close_info;
+    $i=0;
+    foreach($temp_close_info as $tsci)
+    {
+            $str = explode("-",$tsci->value);
+            $close = strtotime($str[2].'-'.$str[1].'-'.$str[0]);
+            if($close < $temp_del && $close > $book){
+                $i=$i+1;
+            }      
+    }
+        
+    $temp_del = $temp_del + $i*24*3600;
+
+    foreach($close_info as $sci)
+    {
+        if($type!='3')
+        {
+            $str = explode("-",$sci->value);
+            $close = strtotime($str[2].'-'.$str[1].'-'.$str[0]);            
+            if($temp_del==$close){              
+                $temp_del = $temp_del+24*3600;
+            }     
+        }
+        else{
+            if($temp_del==$close){
+                $temp_del = $temp_del+24*3600;
+            }      
+        }
+    }
+
+    return $temp_del;
+}
     
     function check_slot()
     {

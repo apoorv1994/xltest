@@ -47,8 +47,7 @@ class Auth extends CI_Controller {
         $this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean');
         if($this->form_validation->run())
         {
-            if($this->_login($this->input->post('email'),md5($this->input->post('password')))) 
-			
+            if($this->_login($this->input->post('email'),($this->input->post('password'))))   // md5 was used here
             {
                 if($this->input->post('remember')=='remember')
                 {
