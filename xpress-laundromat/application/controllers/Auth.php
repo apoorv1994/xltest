@@ -1,5 +1,7 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+session_start();
 class Auth extends CI_Controller {
     public function __construct()
     {
@@ -40,11 +42,12 @@ class Auth extends CI_Controller {
         }
         $this->_is_logged();
         
-        echo "hiiii <br>";
         $pagedata['title']='Login';
         $pagedata['colleges'] = $this->db->get_where('tbl_college',['status'=>1])->result();
+        $_SESSION["collegeinfo"] = $this->db->select('id,college_name,Longitude,Latitude,Radius')->get_where('tbl_college',['status'=>1])->result();
+
         $this->load->view('header_vw',$pagedata);
-        $this->load->view('auth/index_vw');
+        $this->load->view('auth/index_vw',$pagedata);
         $this->load->view('footer_vw');
     }
 
@@ -57,8 +60,7 @@ class Auth extends CI_Controller {
     function getCollegeId()
     {
 
-      $college_info = $this->select('college_id,Longitude,Latitude,Radius')->where(['status'=> 1])->get('tbl_college')->result();
-
+      $college_info = $this->db->get_where('tbl_college',['status'=>1])->result();
       echo json_encode(["collegeinfo"=>$college_info]) ;
     }
 
@@ -102,6 +104,7 @@ class Auth extends CI_Controller {
     
     function login()
     {
+        echo 'login <br>';
         $this->form_validation->set_rules('email', 'Email', 'trim|required|xss_clean');
         $this->form_validation->set_rules('password', 'Password', 'required');
         if($this->form_validation->run())
@@ -170,6 +173,7 @@ class Auth extends CI_Controller {
     function signup()
     {
         echo "again hiii <br>";
+
         $this->_is_logged();
         $this->form_validation->set_rules('firstname', 'First Name', 'trim|required|alpha_numeric_spaces|xss_clean');
         //$this->form_validation->set_rules('lastname', 'Last Name', 'trim|required|alpha_numeric_spaces|xss_clean');
