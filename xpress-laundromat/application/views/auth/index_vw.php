@@ -1,11 +1,13 @@
 <?php
-
+/* php function which takes longitude and latitude from current location and gives the colleges within its radius*/
 function get_college_info($longitude2,$latitude2)
 {
-    $v = $_SESSION["collegeinfo"];
+    $v = $_SESSION["collegeinfo"];    // session is used to get the details of colleges and use them in the function
     //print_r($_SESSION);
+    $inf = '';
     $clgid=0;
-    
+    $clgname='';
+  /* iterates throughout the table and calulate the distance between two points and checks the colleges which are within  the radius*/
     foreach($v as $clg)
     {
         $longitude1 = $clg->Longitude;
@@ -18,17 +20,16 @@ function get_college_info($longitude2,$latitude2)
         $distance = $distance * 60 * 1.1515;
         $distance = $distance * 1.609344;
         $distance = $distance/10000;
-        if($distance > 0){
-            $clgid =4;
-            $clgid = $distance;
-        }
-
+       
         if($distance>0 && $distance < $radius){
             $clgid = $clg->id;
             $clgname = $clg->college_name;
+            $inf=$clgid.'&'.$clgname.'&'.$inf;
         }
     }
-    return $clgid;
+
+    $inf=substr($inf, 0,strlen($inf)-1);
+    return $inf;
 }
 
 ?>
@@ -107,9 +108,7 @@ function get_college_info($longitude2,$latitude2)
                             <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
                                 <select class="form-control select2" id="college_id" name="college_id">
                                     <option value="">College Name*</option>
-                                    <?php foreach($colleges as $college){?>
-                                    <option value="<?=$college->id?>"><?=$college->college_name?></option>
-                                    <?php }?>
+                                    
                                 </select>
                                 <small class="col-xs-12 col-sm-12" id="college_id_err"></small>
                             </div>
@@ -379,16 +378,36 @@ way to clean my clothes without stress.</p>
                   $('#emailprefix,#emailsuffix').blur(function(){
                       $('#emailid').val($(this).val()+$('#emailsuffix').val());
                   })
-                  $('#showsignup').click(function(){
-                      getLocation(function(lat_lng){
-                          console.log(lat_lng);
-                             
-                      var clg_id = "<?php $lo='"+lat_lng.lng+"'; $la='"+lat_lng.lat+"';  echo get_college_info($lo,$la); ?>";
+
+                  /* Javascript fonction get executed when signup button is clicked */
+                  $('#showsignup').click(function(){ 
+                      getLocation(function(lat_lng){   // for geolocation to get user location during signup , automatically detects user location
+                      console.log(lat_lng);
+                      var opt ='<option value="">College Name*</option>';  
+                      var clg_inf = new Array();
+                      var clg_id = "<?php $lo='"+lat_lng.lng+"'; $la='"+lat_lng.lat+"';  echo get_college_info($lo,$la); ?>";  // code that calls php function get_college_id() and converts the returned variable to javascript
+                      clg_inf = clg_id.split("&");
+                      //window.alert(clg_inf.length);
                       $('.signin').hide('fade');
                       $('.signup').show('fade');
-                      $('#college_id').val(clg_id);   // for automatically assigning the college
-                      $('#college_id').change()
-                        });
+                      //window.alert(clg_name);
+                      var len_arr = clg_inf.length;
+                      if(len_arr != 2)              // if college is more than 1 in the given radius then display both the option
+                      {
+                          for(var i=0;i<clg_inf.length/2;i++)
+                          {
+                            opt+='<option value="'+clg_inf[2*i]+'">'+clg_inf[2*i+1]+'</option>'; // javascript code to create an option in dropdown menu
+                          }
+                          $('#college_id').html(opt);   // for automatically assigning the college
+                          //$('#college_id').val(clg_inf[0]);
+                          //$('#college_id').change()
+                      }else{                                       // else for automatically assigning the college
+                            opt='<option value="'+clg_inf[0]+'">'+clg_inf[1]+'</option>';
+                            $('#college_id').val(clg_inf[0]);   
+                            $('#college_id').change()
+                        
+                      }
+                      });
                       
                   });
 
