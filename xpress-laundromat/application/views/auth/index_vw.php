@@ -1,3 +1,39 @@
+<?php
+
+function get_college_info($longitude2,$latitude2)
+{
+    $v = $_SESSION["collegeinfo"];
+    //print_r($_SESSION);
+    $clgid=0;
+    
+    foreach($v as $clg)
+    {
+        $longitude1 = $clg->Longitude;
+        $latitude1 = $clg->Latitude;
+        $radius = $clg->Radius;
+        $theta = $longitude1 - $longitude2;
+        $distance = (sin(deg2rad($latitude1)) * sin(deg2rad($latitude2))) + (cos(deg2rad($latitude1)) * cos(deg2rad($latitude2)) * cos(deg2rad($theta)));
+        $distance = acos($distance);
+        $distance = rad2deg($distance);
+        $distance = $distance * 60 * 1.1515;
+        $distance = $distance * 1.609344;
+        $distance = $distance/10000;
+        if($distance > 0){
+            $clgid =4;
+            $clgid = $distance;
+        }
+
+        if($distance>0 && $distance < $radius){
+            $clgid = $clg->id;
+            $clgname = $clg->college_name;
+        }
+    }
+    return $clgid;
+}
+
+?>
+
+<body onclick="showsignup">
 <link rel="stylesheet" href="<?=BASE?>assets/plugins/bootstrap-datepicker/css/datepicker3.css" />
 <!-- START CONTAINER FLUID -->
           <div class="container-fluid container-fixed-lg no-padding">
@@ -324,6 +360,7 @@ way to clean my clothes without stress.</p>
             </div>
             <!-- END PLACE PAGE CONTENT HERE -->
           </div>
+    </body>
           <!-- END CONTAINER FLUID -->
           <script src="<?=BASE?>assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" ></script>
           <script src="<?=BASE?>assets/plugins/moment/moment.min.js"></script>
@@ -343,13 +380,18 @@ way to clean my clothes without stress.</p>
                       $('#emailid').val($(this).val()+$('#emailsuffix').val());
                   })
                   $('#showsignup').click(function(){
+                      getLocation(function(lat_lng){
+                          console.log(lat_lng);
+                             
+                      var clg_id = "<?php $lo='"+lat_lng.lng+"'; $la='"+lat_lng.lat+"';  echo get_college_info($lo,$la); ?>";
                       $('.signin').hide('fade');
                       $('.signup').show('fade');
-                      //var url = '<?=BASE?>auth/get_college_info';
-                      //var clg_id = get_id();
-                      $('#college_id').val('3');   // for automatically assigning the college
+                      $('#college_id').val(clg_id);   // for automatically assigning the college
                       $('#college_id').change()
+                        });
+                      
                   });
+
                   $('#showlogin').click(function(){
                       $('.signin').show('fade');
                       $('.signup').hide('fade')
@@ -361,7 +403,41 @@ way to clean my clothes without stress.</p>
                   });
                   $('.select2').select2();
                   
-                                   
+                  $('#college_id').change(function(){
+                      $('#emailprefix').val('');
+                      $('#emailid').val('');
+                        var id = $(this).val();
+                        var url = '<?=BASE?>auth/get-hostel/'+id;
+                        $.get(url,function(success){
+                            var opt ='';
+                            var res = JSON.parse(success);
+                            if(res.status)
+                            {
+                                var len = res.data.length;
+                                for(var i=0;i<len;i++)
+                                {
+                                    opt+='<option value="'+res.data[i].id+'">'+res.data[i].hostel_name+'</option>';
+                                }
+                                $('#hostel_id').html(opt);
+                                if(res.suffix){
+                                    if(id==3){
+                                       // $('#emailsuffix').removeAttr('readonly');
+                                    }
+                                    else{
+                                        //$('#emailsuffix').prop('readonly',true);
+                                    }
+                                $('#emailsuffix').val(res.suffix);
+                                }else{
+                                    $('#emailsuffix').val('');
+                                }
+                            }
+                            else{
+                                $('#hostel_id').html('<option value="">Select Hostel*</option>');
+                                $('.select2').select2();
+                                $('#emailsuffix').val('');
+                            }
+                      })
+                  });                                   
                   
                   //for registration 
                   $('.signupbtn').click(function(){
@@ -420,3 +496,63 @@ way to clean my clothes without stress.</p>
                   });
               })
               </script>
+
+    <script>
+    //var x = document.getElementById("locate_id");
+    //var y = document.getElementById("demo");
+    function getLocation(callback) {
+        if (navigator.geolocation) {
+            var lat_lng = navigator.geolocation.getCurrentPosition(function(position){
+            console.log(position);
+              var user_position = {};
+              user_position.lat = position.coords.latitude; 
+              user_position.lng = position.coords.longitude; 
+              callback(user_position);
+            });
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    }
+    
+
+    function calcDistance(lat1, lon1, lat2, lon2) 
+    {
+      var R = 6371; // km
+      var dLat = toRad(lat2-lat1);
+      var dLon = toRad(lon2-lon1);
+      var lat1 = toRad(lat1);
+      var lat2 = toRad(lat2);
+
+      var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+      var d = R * c;
+      return d;
+    }
+
+    // Converts numeric degrees to radians
+    function toRad(Value) 
+    {
+        return Value * Math.PI / 180;
+    }
+    function showError(error) {
+        switch(error.code) {
+            case error.PERMISSION_DENIED:
+                x.innerHTML = "User denied the request for Geolocation."
+                break;
+            case error.POSITION_UNAVAILABLE:
+                x.innerHTML = "Location information is unavailable."
+                break;
+            case error.TIMEOUT:
+                x.innerHTML = "The request to get user location timed out."
+                break;
+            case error.UNKNOWN_ERROR:
+                x.innerHTML = "An unknown error occurred."
+                break;
+        }
+    }
+
+    function showLocation(){
+
+    }
+    </script>

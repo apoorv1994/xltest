@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<body onload="getLocation()">
+
   <head>
     <style>
     img {
@@ -119,7 +119,7 @@
                 <a  id='locate_id'>  </a>
                 <a href="<?=BASE?>" title=""><img src="<?=BASE?>assets/img/location.png" alt="location" data-src="<?=BASE?>assets/img/location.png" data-src-retina="<?=BASE?>assets/img/location.png" width="20" height="20"></a>
             </div>
-            <p id="demo">DEMO</p>
+            
             <div class="pull-left p-r-20 p-t-10 fs-16 font-heading <?php if($this->session->user_id){echo 'visible-lg visible-md m-t-10'; }else{echo 'ss';}?>">
                 <a href="<?=BASE?>faqs" title="Faq">FAQ</a>
             </div>
@@ -175,68 +175,3 @@
         <div class="content ">
 
 
-    <script>
-    var x = document.getElementById("locate_id");
-    function getLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showPosition);
-        } else {
-            x.innerHTML = "Geolocation is not supported by this browser.";
-        }
-    }
-    function showPosition(position) {
-
-        var longitude_val = position.coords.latitude;
-        var latitude_val = position.coords.longitude;
-        var url = '<?=BASE?>auth/getCollegeId';
-
-        //var college_id = ;      
-        //print(college_info);
-        var lat;
-        var long;
-        var dis;
-   
-        document.getElementById("demo").innerHTML = clg_id;
-        x.innerHTML = clg_id;
-    }
-    function calcDistance(lat1, lon1, lat2, lon2) 
-    {
-      var R = 6371; // km
-      var dLat = toRad(lat2-lat1);
-      var dLon = toRad(lon2-lon1);
-      var lat1 = toRad(lat1);
-      var lat2 = toRad(lat2);
-
-      var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-        Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
-      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-      var d = R * c;
-      return d;
-    }
-
-    // Converts numeric degrees to radians
-    function toRad(Value) 
-    {
-        return Value * Math.PI / 180;
-    }
-    function showError(error) {
-        switch(error.code) {
-            case error.PERMISSION_DENIED:
-                x.innerHTML = "User denied the request for Geolocation."
-                break;
-            case error.POSITION_UNAVAILABLE:
-                x.innerHTML = "Location information is unavailable."
-                break;
-            case error.TIMEOUT:
-                x.innerHTML = "The request to get user location timed out."
-                break;
-            case error.UNKNOWN_ERROR:
-                x.innerHTML = "An unknown error occurred."
-                break;
-        }
-    }
-
-    function showLocation(){
-
-    }
-    </script>
