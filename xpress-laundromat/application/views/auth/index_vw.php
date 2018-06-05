@@ -3,7 +3,6 @@
 function get_college_info($longitude2,$latitude2)
 {
     $v = $_SESSION["collegeinfo"];    // session is used to get the details of colleges and use them in the function
-    //print_r($_SESSION);
     $inf = '';
     $clgid=0;
     $clgname='';
@@ -28,7 +27,7 @@ function get_college_info($longitude2,$latitude2)
         }
     }
 
-    $inf=substr($inf, 0,strlen($inf)-1);
+    $inf=substr($inf, 0,strlen($inf)-1);    // stores all the information in a string and send the nearby colleges to signup features
     return $inf;
 }
 
@@ -385,14 +384,14 @@ way to clean my clothes without stress.</p>
                       console.log(lat_lng);
                       var opt ='<option value="">College Name*</option>';  
                       var clg_inf = new Array();
-                      var clg_id = "<?php $lo='"+lat_lng.lng+"'; $la='"+lat_lng.lat+"';  echo get_college_info($lo,$la); ?>";  // code that calls php function get_college_id() and converts the returned variable to javascript
+                      var clg_id = "<?php $lo='"+lat_lng.lng+"'; $la='"+lat_lng.lat+"';  echo get_college_info($lo,$la); ?>";  // code that calls php function get_college_info() and converts the returned variable to javascript
                       clg_inf = clg_id.split("&");
                       //window.alert(clg_inf.length);
                       $('.signin').hide('fade');
                       $('.signup').show('fade');
                       //window.alert(clg_name);
                       var len_arr = clg_inf.length;
-                      if(len_arr != 2)              // if college is more than 1 in the given radius then display both the option
+                      if(len_arr != 2)              // if college is more than 1 in the given radius then display both the option in signup option
                       {
                           for(var i=0;i<clg_inf.length/2;i++)
                           {
@@ -422,7 +421,7 @@ way to clean my clothes without stress.</p>
                   });
                   $('.select2').select2();
                   
-                  $('#college_id').change(function(){
+                  $('#college_id').change(function(){                 // as soon as the college id is changed during signup display hostel as per the change in the college id
                       $('#emailprefix').val('');
                       $('#emailid').val('');
                         var id = $(this).val();
