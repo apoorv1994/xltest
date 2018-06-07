@@ -65,10 +65,7 @@ class Home extends CI_Controller {
         $pagedata['drycleaning'] = 'current-slot';
         $last_order = $this->last_order();
         $pagedata['last_order'] = $last_order['last_order'];
-
-        $pagedata['u_pickup_t'] = $last_order['u_pickup_t'];
-        $pagedata['u_close_shop'] = $last_order['shop_close_date'];
-
+        
         $pagedata['hslots'] = $last_order['slot'];
         $pagedata['details'] = $this->users->get_user('firstname,profile_pic,wallet_balance,phone_no,room_no,college_id,hostel_id',  $this->session->user_id);
         $pagedata['hostel_details'] = $this->londury->get_hostel_detail($pagedata['details']->hostel_id);
@@ -87,9 +84,6 @@ class Home extends CI_Controller {
         $pagedata['individual'] = 'current-slot';
         $last_order = $this->last_order();
         $pagedata['last_order'] = $last_order['last_order'];
-
-        $pagedata['u_pickup_t'] = $last_order['pickup_t'];
-        $pagedata['u_delivery_date'] = $last_order['shop_close_date'];
         
         $pagedata['hslots'] = $last_order['slot'];
         $pagedata['details'] = $this->users->get_user('firstname,profile_pic,wallet_balance,phone_no,room_no,college_id,hostel_id',  $this->session->user_id);
@@ -109,9 +103,6 @@ class Home extends CI_Controller {
         $pagedata['shoelaundry'] = 'current-slot';
         $last_order = $this->last_order();
         $pagedata['last_order'] = $last_order['last_order'];
-
-        $pagedata['u_pickup_t'] = $last_order['pickup_t'];
-        $pagedata['u_delivery_date'] = $last_order['shop_close_date'];
         
         $pagedata['hslots'] = $last_order['slot'];
         $pagedata['details'] = $this->users->get_user('firstname,profile_pic,wallet_balance,phone_no,room_no,college_id,hostel_id',  $this->session->user_id);
@@ -136,7 +127,6 @@ class Home extends CI_Controller {
         $pickup = [];
 
         $shop_close_d = $this->get_delivery_date($last_order->book_date,$res,$last_order->order_type);
-       
         foreach($slots as $slot)
         {
             switch($slot->slot_type)

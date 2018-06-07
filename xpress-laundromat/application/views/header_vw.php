@@ -1,14 +1,6 @@
 <!DOCTYPE html>
 <html>
-
   <head>
-    <style>
-    img {
-        float: left;
-        border: 1px dotted black;
-        margin: 0px 0px 15px 20px;
-    }
-    </style>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
     <meta charset="utf-8" />
     <title><?=$title?></title>
@@ -46,9 +38,6 @@
 
     gtag(‘config’, ‘UA-109341189-1’);
     </script>
-
-
-
   </head>
   <body class="fixed-header ">
     <!-- BEGIN SIDEBPANEL-->
@@ -114,12 +103,6 @@
         <div class=" pull-right">
           <!-- START User Info-->
           <div >
-
-            <div class="pull-left p-r-20 p-t-10 fs-16 font-heading <?php if($this->session->user_id){echo 'visible-lg visible-md m-t-10'; }else{echo 'ss';}?>">
-                <a  id='locate_id'>  </a>
-                <a href="<?=BASE?>" title=""><img src="<?=BASE?>assets/img/location.png" alt="location" data-src="<?=BASE?>assets/img/location.png" data-src-retina="<?=BASE?>assets/img/location.png" width="20" height="20"></a>
-            </div>
-            
             <div class="pull-left p-r-20 p-t-10 fs-16 font-heading <?php if($this->session->user_id){echo 'visible-lg visible-md m-t-10'; }else{echo 'ss';}?>">
                 <a href="<?=BASE?>faqs" title="Faq">FAQ</a>
             </div>
@@ -173,5 +156,3 @@
       <div class="page-content-wrapper ">
         <!-- START PAGE CONTENT -->
         <div class="content ">
-
-

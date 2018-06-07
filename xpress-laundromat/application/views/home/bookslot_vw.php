@@ -37,6 +37,7 @@ else
 	$finalAmount= $last_order->total_amount+$last_order->sc_SGST+$last_order->sc_CGST+$last_order->sc_IGST-$last_order->discount;
 }
 
+
 ?>
 <link rel="stylesheet" href="<?=BASE?>assets/css/circle.css">
 <!-- START CONTAINER FLUID -->
@@ -102,7 +103,7 @@ else
             </div>
             <div class="col-xs-6 col-sm-4 text-center no-padding p-t-20 p-b-40">
                 <img class=" text-center" src="<?=BASE?>assets/img/loc.png" />
-                <span class="bold col-sm-12 col-xs-12 m-t-10">PICK UPP</span>
+                <span class="bold col-sm-12 col-xs-12 m-t-10">PICK UP</span>
                 <div class="col-sm-12"><?=date('d/m/Y',$last_order->book_date)?></div>
                 <div  class="col-sm-12 no-padding"><?=$u_pickup_t[$last_order->book_slot]?></div>
             </div>
@@ -129,7 +130,6 @@ else
                 <img class=" text-center" src="<?=BASE?>assets/img/bus.png" />
                 <span class="bold col-sm-12">DELIVERY</span>
                 <div class="col-sm-12"><?=date('d/m/Y',$u_delivery_date)?></div>
-
                 <div  class="col-sm-12 no-padding"><?=$u_pickup_t[$last_order->book_slot]?></div>
             </div>
             <?php }else{?>

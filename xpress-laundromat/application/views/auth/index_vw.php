@@ -1,38 +1,3 @@
-<?php
-/* php function which takes longitude and latitude from current location and gives the colleges within its radius*/
-function get_college_info($longitude2,$latitude2)
-{
-    $v = $_SESSION["collegeinfo"];    // session is used to get the details of colleges and use them in the function
-    $inf = '';
-    $clgid=0;
-    $clgname='';
-  /* iterates throughout the table and calulate the distance between two points and checks the colleges which are within  the radius*/
-    foreach($v as $clg)
-    {
-        $longitude1 = $clg->Longitude;
-        $latitude1 = $clg->Latitude;
-        $radius = $clg->Radius;
-        $theta = $longitude1 - $longitude2;
-        $distance = (sin(deg2rad($latitude1)) * sin(deg2rad($latitude2))) + (cos(deg2rad($latitude1)) * cos(deg2rad($latitude2)) * cos(deg2rad($theta)));
-        $distance = acos($distance);
-        $distance = rad2deg($distance);
-        $distance = $distance * 60 * 1.1515;
-        $distance = $distance * 1.609344;
-        $distance = $distance/10000;
-       
-        if($distance>0 && $distance < $radius){
-            $clgid = $clg->id;
-            $clgname = $clg->college_name;
-            $inf=$clgid.'&'.$clgname.'&'.$inf;
-        }
-    }
-
-    $inf=substr($inf, 0,strlen($inf)-1);    // stores all the information in a string and send the nearby colleges to signup features
-    return $inf;
-}
-
-?>
-
 <body onclick="showsignup">
 <link rel="stylesheet" href="<?=BASE?>assets/plugins/bootstrap-datepicker/css/datepicker3.css" />
 <!-- START CONTAINER FLUID -->
@@ -86,7 +51,7 @@ function get_college_info($longitude2,$latitude2)
                                     <small class="col-xs-12 col-sm-12 no-padding" id="dob_err"></small>
                                 </div>
                                 <div class="col-xs-12 col-sm-6 no-padding margin-top-10">
-                                    <select class="form-control select2" id = "gender" name="gender">
+                                    <select class="form-control select2" name="gender">
                                     <option value="">Gender*</option>
                                     <option value="1">Male</option>
                                     <option value="2">Female</option>
@@ -105,9 +70,14 @@ function get_college_info($longitude2,$latitude2)
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
+                                <select class="form-control select2" id="state_id" name="state_id">
+                                    <option value="">City Name*</option>
+                                    
+                                </select>
+                                <!--<small class="col-xs-12 col-sm-12" id="state_id_err"></small>  -->
+                            <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
                                 <select class="form-control select2" id="college_id" name="college_id">
                                     <option value="">College Name*</option>
-                                    
                                 </select>
                                 <small class="col-xs-12 col-sm-12" id="college_id_err"></small>
                             </div>
@@ -146,7 +116,7 @@ function get_college_info($longitude2,$latitude2)
                                 <small class="col-xs-12 col-sm-12 no-padding" id="terms_err"></small>
                             </div>
                             <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
-                                <button type="button" class="form-control signupbtn" id="signupbtn" name="signup" onclick="get_college_details()">SIGN UP <i class="fa fa-arrow-right pull-right" id="loader"></i></button>
+                                <button type="button" class="form-control signupbtn" id="signupbtn" name="signup">SIGN UP <i class="fa fa-arrow-right pull-right" id="loader"></i></button>
                                 <small id="main_err"></small>
                             </div>
                         </div>
@@ -358,58 +328,109 @@ way to clean my clothes without stress.</p>
             </div>
             <!-- END PLACE PAGE CONTENT HERE -->
           </div>
-    </body>
+</body>
           <!-- END CONTAINER FLUID -->
           <script src="<?=BASE?>assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" ></script>
           <script src="<?=BASE?>assets/plugins/moment/moment.min.js"></script>
           <script>
-            function get_id()
-            {
-
-            }
-          </script>
-          <script>
               $(document).ready(function(){
-                  
+                  var option_allow=0;
+                  var global_lat=14.98491956;
+                  var global_long=91.60019175;
+
                   $('#emailprefix,#emailsuffix').keyup(function(){
                       $('#emailid').val($(this).val()+$('#emailsuffix').val());
                   })
                   $('#emailprefix,#emailsuffix').blur(function(){
                       $('#emailid').val($(this).val()+$('#emailsuffix').val());
                   })
+                  $('#showsignup').click(function(){
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(function(position) {
+                        option_allow = 1;
+                        var id = 1;
+                        var url = '<?=BASE?>auth/get-location-info';
+                        var current_lat = position.coords.latitude;
+                        var current_long = position.coords.longitude;
+                        global_lat = current_lat;
+                        global_long = current_long;
+                        //window.alert("Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude);
+                        // display signup form
+                        $('.signin').hide('fade');
+                        $('.signup').show('fade');
+                        var url = '<?=BASE?>auth/get-location-info';   // get city details from the database table
+                        //window.alert(url);
+                        $.get(url,function(success){
+                            var opt ='<option value="">City Name*</option>';
+                            var res = JSON.parse(success);
+                            if(res.status)
+                            {
+                                var len = res.data.length;
+                                //window.alert(len);
+                                for(var i=0;i<len;i++)
+                                {
+                                    var city_lat = res.data[i].state_latitude;
+                                    var city_long = res.data[i].state_longitude;
+                                    var city_radius = res.data[i].state_radius;
+                                    //window.alert(city_radius);
+                                    var distance = calcDistance(city_lat,city_long,current_lat,current_long);
+                                    //var distance =20;
+                                    //window.alert(distance);
+                                    if(distance>0 && distance<city_radius)
+                                    {
+                                        opt+='<option value="'+res.data[i].stateID+'">'+res.data[i].stateName+'</option>';
+                                        break;
+                                    }
+                                }
+                                $('#state_id').html(opt);
+                                $('#state_id').val();
+                                $('#state_id').change();
 
-                  /* Javascript fonction get executed when signup button is clicked */
-                  $('#showsignup').click(function(){ 
-                      getLocation(function(lat_lng){   // for geolocation to get user location during signup , automatically detects user location
-                      console.log(lat_lng);
-                      var opt ='<option value="">College Name*</option>';  
-                      var clg_inf = new Array();
-                      var clg_id = "<?php $lo='"+lat_lng.lng+"'; $la='"+lat_lng.lat+"';  echo get_college_info($lo,$la); ?>";  // code that calls php function get_college_info() and converts the returned variable to javascript
-                      clg_inf = clg_id.split("&");
-                      //window.alert(clg_inf.length);
-                      $('.signin').hide('fade');
-                      $('.signup').show('fade');
-                      //window.alert(clg_name);
-                      var len_arr = clg_inf.length;
-                      if(len_arr != 2)              // if college is more than 1 in the given radius then display both the option in signup option
-                      {
-                          for(var i=0;i<clg_inf.length/2;i++)
-                          {
-                            opt+='<option value="'+clg_inf[2*i]+'">'+clg_inf[2*i+1]+'</option>'; // javascript code to create an option in dropdown menu
-                          }
-                          $('#college_id').html(opt);   // for automatically assigning the college
-                          //$('#college_id').val(clg_inf[0]);
-                          //$('#college_id').change()
-                      }else{                                       // else for automatically assigning the college
-                            opt='<option value="'+clg_inf[0]+'">'+clg_inf[1]+'</option>';
-                            $('#college_id').val(clg_inf[0]);   
-                            $('#college_id').change()
-                        
-                      }
-                      });
-                      
+                            }
+                        })
+                    },function(error) {                  // function gets executed when user donot allow the location
+                switch(error.code) {
+                    case error.PERMISSION_DENIED:
+                        //window.alert("User denied the request for Geolocation.")
+                        option_allow=0;
+                        $('.signin').hide('fade');
+                        $('.signup').show('fade');
+                        var id = 0;
+                        var url = '<?=BASE?>auth/get-location-info';
+                        //window.alert(url);
+                        $.get(url,function(success){
+                            var opt ='<option value="">City Name*</option>';
+                            var res = JSON.parse(success);
+                            //var city_id =   
+                            if(res.status)
+                            {
+                                var len = res.data.length;
+                                //window.alert(len);
+                                for(var i=0;i<len;i++)
+                                {
+                                     opt+='<option value="'+res.data[i].stateID+'">'+res.data[i].stateName+'</option>';
+                                }
+                                $('#state_id').html(opt);
+                                $('#state_id').val();
+                                $('#state_id').change();
+                            }
+                        })
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        x.innerHTML = "Location information is unavailable."
+                        break;
+                    case error.TIMEOUT:
+                        x.innerHTML = "The request to get user location timed out."
+                        break;
+                    case error.UNKNOWN_ERROR:
+                        x.innerHTML = "An unknown error occurred."
+                        break;
+                }
+
+    });
+        }
+
                   });
-
                   $('#showlogin').click(function(){
                       $('.signin').show('fade');
                       $('.signup').hide('fade')
@@ -420,14 +441,71 @@ way to clean my clothes without stress.</p>
                       autoclose:true
                   });
                   $('.select2').select2();
+
+                  $('#state_id').change(function(){
+                    //opt='';
+                    //opt+='<option value="'+3+'">'+"IIT Delhi"+'</option>';
+                    //opt+='<option value="'+4+'">'+"Galgotia College"+'</option>';
+                    //$('#college_id').html(opt);
+                    var id = $(this).val();
+                    //window.alert(id);
+                    var url = '<?=BASE?>auth/get-college/'+id;
+                    //window.alert("hiiii : "+url);
+                    $.get(url,function(success){
+                        var opt_1 ='<option value="">College Name*</option>';
+                        var opt_2 ='<option value="">College Name*</option>';
+                        //var opt ='<option value="">College Name*</option>';
+                        var check=0;
+                        var res = JSON.parse(success);
+                        if(res.status)
+                        {
+                            var len = res.data.length;
+                            for(var i=0;i<len;i++){
+
+                                if(option_allow != 0)
+                                {
+                                    var clg_lat = res.data[i].latitude;
+                                    var clg_long = res.data[i].Longitude;
+                                    var clg_radius = res.data[i].Radius;
+
+                                    //window.alert("option_allow : "+ option_allow+"   clg_lat : " +clg_lat+"   clg_long : " +clg_long+"   global_lat : " +global_lat+"   global_long : " +global_long);
+                                    var clg_distance = calcDistance(clg_lat,clg_long,global_lat,global_long);
+                                    //window.alert("distance : "+ clg_distance);
+                                    if(clg_distance>0 && clg_distance < clg_radius)
+                                    {
+                                        opt_1+='<option value="'+res.data[i].id+'">'+res.data[i].college_name+'</option>';
+                                        check=check+1;
+                                    }else{
+                                        opt_2+='<option value="'+res.data[i].id+'">'+res.data[i].college_name+'</option>';
+                                    }
+                                        
+                                }else{
+                                    opt_2+= '<option value="'+res.data[i].id+'">'+res.data[i].college_name+'</option>';
+                                }
+                            }
+                                    //window.alert(opt_1);
+                                    //window.alert(opt_2);
+                                    if(check !=0){
+                                        $('#college_id').html(opt_1);
+                                    }else{
+                                        $('#college_id').html(opt_2);
+                                    }      
+
+                            $('#college_id').change();
+                        }
+                    })
+                  });
+
                   
-                  $('#college_id').change(function(){                 // as soon as the college id is changed during signup display hostel as per the change in the college id
+                  $('#college_id').change(function(){
                       $('#emailprefix').val('');
                       $('#emailid').val('');
                         var id = $(this).val();
+                        //window.alert(option_allow);
                         var url = '<?=BASE?>auth/get-hostel/'+id;
+                        //window.alert(url);
                         $.get(url,function(success){
-                            var opt ='';
+                            var opt ='<option value="">Hostel Name*</option>';
                             var res = JSON.parse(success);
                             if(res.status)
                             {
@@ -437,17 +515,7 @@ way to clean my clothes without stress.</p>
                                     opt+='<option value="'+res.data[i].id+'">'+res.data[i].hostel_name+'</option>';
                                 }
                                 $('#hostel_id').html(opt);
-                                if(res.suffix){
-                                    if(id==3){
-                                       // $('#emailsuffix').removeAttr('readonly');
-                                    }
-                                    else{
-                                        //$('#emailsuffix').prop('readonly',true);
-                                    }
-                                $('#emailsuffix').val(res.suffix);
-                                }else{
-                                    $('#emailsuffix').val('');
-                                }
+                                $('#select').change();
                             }
                             else{
                                 $('#hostel_id').html('<option value="">Select Hostel*</option>');
@@ -455,13 +523,11 @@ way to clean my clothes without stress.</p>
                                 $('#emailsuffix').val('');
                             }
                       })
-                  });                                   
-                  
+                  });
                   //for registration 
                   $('.signupbtn').click(function(){
                       $('#loader').addClass('fa-spin fa-spinner');
                       $('#main_err').html('');
-                      
                       var url = '<?=BASE?>auth/signup';
                       var data = $('#signupFrm').serialize();
                       $.post(url,data,function(success){
@@ -486,7 +552,6 @@ way to clean my clothes without stress.</p>
                             }
                       })
                   });
-                  
                   //for login
                   $('.loginbtn').click(function(){
                       $('#loader_log').addClass('fa-spin fa-spinner');
@@ -514,24 +579,7 @@ way to clean my clothes without stress.</p>
                   });
               })
               </script>
-
-    <script>
-    //var x = document.getElementById("locate_id");
-    //var y = document.getElementById("demo");
-    function getLocation(callback) {
-        if (navigator.geolocation) {
-            var lat_lng = navigator.geolocation.getCurrentPosition(function(position){
-            console.log(position);
-              var user_position = {};
-              user_position.lat = position.coords.latitude; 
-              user_position.lng = position.coords.longitude; 
-              callback(user_position);
-            });
-        } else {
-            alert("Geolocation is not supported by this browser.");
-        }
-    }
-    
+<script>
 
     function calcDistance(lat1, lon1, lat2, lon2) 
     {
@@ -545,32 +593,13 @@ way to clean my clothes without stress.</p>
         Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
       var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
       var d = R * c;
+      //window.alert("Distance: "+ d);
       return d;
     }
 
-    // Converts numeric degrees to radians
     function toRad(Value) 
     {
         return Value * Math.PI / 180;
     }
-    function showError(error) {
-        switch(error.code) {
-            case error.PERMISSION_DENIED:
-                x.innerHTML = "User denied the request for Geolocation."
-                break;
-            case error.POSITION_UNAVAILABLE:
-                x.innerHTML = "Location information is unavailable."
-                break;
-            case error.TIMEOUT:
-                x.innerHTML = "The request to get user location timed out."
-                break;
-            case error.UNKNOWN_ERROR:
-                x.innerHTML = "An unknown error occurred."
-                break;
-        }
-    }
 
-    function showLocation(){
-
-    }
-    </script>
+</script>

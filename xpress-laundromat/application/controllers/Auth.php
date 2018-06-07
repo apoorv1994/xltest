@@ -1,11 +1,8 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
-session_start();
 class Auth extends CI_Controller {
     public function __construct()
     {
-        //echo 'hiii <br>';
         parent::__construct(); 
         $this->load->library('users');
     }
@@ -42,12 +39,11 @@ class Auth extends CI_Controller {
         }
         $this->_is_logged();
         
+        
         $pagedata['title']='Login';
         $pagedata['colleges'] = $this->db->get_where('tbl_college',['status'=>1])->result();
-        $_SESSION["collegeinfo"] = $this->db->select('id,college_name,Longitude,Latitude,Radius')->get_where('tbl_college',['status'=>1])->result();
-
         $this->load->view('header_vw',$pagedata);
-        $this->load->view('auth/index_vw',$pagedata);
+        $this->load->view('auth/index_vw');
         $this->load->view('footer_vw');
     }
 
@@ -57,11 +53,32 @@ class Auth extends CI_Controller {
         echo json_encode($user);
     }
 
-    function getCollegeId()
+    function get_location_info()
     {
 
-      $college_info = $this->db->get_where('tbl_college',['status'=>1])->result();
-      echo json_encode(["collegeinfo"=>$college_info]) ;
+        $res = $this->londury->get_state();
+
+        if($res)
+        {
+            echo json_encode(['status'=>TRUE,'data'=>$res]);
+        }else{
+            echo json_encode(['status'=>FALSE]);
+        }
+    }
+
+    function get_college($id)
+    {
+        $res = $this->db->select('id,college_name,Longitude,latitude,Radius')
+                        ->where(['area_code'=>$id])
+                        ->order_by('college_name','ASC')
+                        ->get('tbl_college')
+                        ->result();
+        if($res)
+        {
+            echo json_encode(['status'=>TRUE,'data'=>$res]);
+        }else{
+            echo json_encode(['status'=>FALSE]);
+        }        
     }
 
     function wallet_correct() 
@@ -104,13 +121,12 @@ class Auth extends CI_Controller {
     
     function login()
     {
-        echo 'login <br>';
         $this->form_validation->set_rules('email', 'Email', 'trim|required|xss_clean');
         $this->form_validation->set_rules('password', 'Password', 'required');
         if($this->form_validation->run())
         {
             $username=  $this->input->post('email');
-            $password= ($this->input->post('password'));               // md5 was here
+            $password= ($this->input->post('password'));
             $log_check=$this->_login($username, $password);
             if($log_check['status'])
             {
@@ -172,8 +188,6 @@ class Auth extends CI_Controller {
     
     function signup()
     {
-        echo "again hiii <br>";
-
         $this->_is_logged();
         $this->form_validation->set_rules('firstname', 'First Name', 'trim|required|alpha_numeric_spaces|xss_clean');
         //$this->form_validation->set_rules('lastname', 'Last Name', 'trim|required|alpha_numeric_spaces|xss_clean');
@@ -491,7 +505,6 @@ class Auth extends CI_Controller {
         //get email suffix
         $suffix = $this->londury->get_suffix($id);
         $res = $this->londury->get_hostel($id);
-        //print_r("expression <br>");
         if($res)
         {
             echo json_encode(['status'=>TRUE,'data'=>$res,'suffix'=>$suffix]);
@@ -535,14 +548,6 @@ class Auth extends CI_Controller {
         $this->load->view('footer_vw');
     }
     
-    function location()
-    {
-        $pagedata['title'] = 'Location';
-        $this->load->view('header_vw',$pagedata);
-        $this->load->view('auth/location_vw');
-        $this->load->view('footer_vw');        
-    }
-
     function about()
     {
         $pagedata['title'] = 'About US';
