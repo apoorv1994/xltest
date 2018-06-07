@@ -35,72 +35,54 @@
                         <p class="col-xs-12 col-sm-12"><span class="big">SIGNUP</span> to book your schedule</p>
                         <form id="signupFrm" >
                         <div class="col-xs-12 col-sm-12">
-                            <div class="col-sm-12 no-padding">
-                                <div class="col-xs-12 col-sm-6 no-padding margin-top-10">
-                                    <input type="text" class="form-control" name="firstname" placeholder="First Name*">
-                                    <small class="col-xs-12 col-sm-12 no-padding" id="firstname_err"></small>
-                                </div>
-                                <div class="col-xs-12 col-sm-6 no-padding margin-top-10">
-                                    <input type="text" class="form-control" name="lastname" placeholder="Last Name">
-                                    <small class="col-xs-12 col-sm-12 no-padding" id="lastname_err"></small>
-                                </div>
-                            </div>
-                            <div class="col-xs-12 col-sm-12 no-padding">
-                                <div class="col-xs-12 col-sm-6 no-padding margin-top-10">
-                                    <input type="text" class="form-control" id="dob" name="dob" placeholder="Date Of Birth">
-                                    <small class="col-xs-12 col-sm-12 no-padding" id="dob_err"></small>
-                                </div>
-                                <div class="col-xs-12 col-sm-6 no-padding margin-top-10">
-                                    <select class="form-control select2" name="gender">
-                                    <option value="">Gender*</option>
-                                    <option value="1">Male</option>
-                                    <option value="2">Female</option>
-                                    </select>
-                                    <small class="col-xs-12 col-sm-12 no-padding" id="gender_err"></small>
-                                </div>
-                            </div>
-                            <div class="col-xs-12 col-sm-12 no-padding">
-                                <div class="col-xs-12 col-sm-6 no-padding margin-top-10">
-                                    <input type="text" class="form-control" name="rollnumber" placeholder="Roll Number">
-                                    <small class="col-sm-12 no-padding" id="rollnumber_err"></small>
-                                </div>
-                                <div class="col-xs-12 col-sm-6 no-padding margin-top-10">
-                                    <input type="text" class="form-control" maxlength="10" name="phonenumber" placeholder="Phone Number*">
-                                    <small class="col-xs-12 col-sm-12 no-padding" id="phonenumber_err"></small>
-                                </div>
-                            </div>
                             <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
                                 <select class="form-control select2" id="state_id" name="state_id">
                                     <option value="">City Name*</option>
                                     
                                 </select>
-                                <!--<small class="col-xs-12 col-sm-12" id="state_id_err"></small>  -->
-                            <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
+                                
+                             <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
                                 <select class="form-control select2" id="college_id" name="college_id">
                                     <option value="">College Name*</option>
                                 </select>
                                 <small class="col-xs-12 col-sm-12" id="college_id_err"></small>
+                            </div>    
+                                
+                            <div class="col-sm-12 no-padding">
+                                <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
+                                    <input type="text" class="form-control" name="firstname" placeholder="First Name*">
+                                    <small class="col-xs-12 col-sm-12 no-padding" id="firstname_err"></small>
+                                </div>
+                                
                             </div>
+                            
+                            <div class="col-xs-12 col-sm-12 no-padding">
+                                
+                                <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
+                                    <input type="text" class="form-control" maxlength="10" name="phonenumber" placeholder="Phone Number">
+                                    <small class="col-xs-12 col-sm-12 no-padding" id="phonenumber_err"></small>
+                                </div>
+                                
+                                <div class="col-xs-12 col-sm-12 no-padding margin-top-10 ">
+                                    <input type="text" class="form-control" name="emailprefix" id="emailprefix" placeholder="Email*">
+                                    <input type="hidden" class="form-control" name="emailid" id="emailid">
+                                </div>
+                            </div>
+                            
+                                <!--<small class="col-xs-12 col-sm-12" id="state_id_err"></small>  -->
+                           
+                                
                             <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
                                 <select class="form-control select2" id="hostel_id" name="hostel_id">
-                                    <option value="">Hostel Block*</option>
+                                    <option value="">Hostel /Block*</option>
                                 </select>
                                 <small class="col-xs-12 col-sm-12" id="hostel_id_err"></small>
                             </div>
                             <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
-                                <input type="text" class="form-control" name="roomnumber" placeholder="Room Number*">
+                                <input type="text" class="form-control" name="roomnumber" placeholder="Room / Address ">
                                 <small class="col-xs-12 col-sm-12 no-padding" id="roomnumber_err"></small>
                             </div>
-                            <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
-                            <div class="col-xs-6 col-sm-6 no-padding ">
-                                <input type="text" class="form-control" name="emailprefix" id="emailprefix" placeholder="Collage Email*">
-                                <input type="hidden" class="form-control" name="emailid" id="emailid">
-                            </div>
-                            <div class="col-xs-6 col-sm-6 no-padding">
-                                <input type="text" class="form-control" style="color: rgba(98, 98, 98, 1)" id="emailsuffix" name="emailsuffix" placeholder="Select College First*">
-                            </div>
-                                <small class="col-xs-12 col-sm-12 no-padding" id="emailid_err"></small>
-                            </div>
+                            
                             <div class="col-sm-12 no-padding">
                                 <div class="col-xs-12 col-sm-6 no-padding margin-top-10">
                                     <input type="password" class="form-control" name="password" placeholder="Password*">
