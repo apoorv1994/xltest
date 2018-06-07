@@ -10,6 +10,14 @@ class Londury extends CI_Model {
                 ->result();
     }
 
+    function get_state()
+    {
+        return $this->db->select('stateID,stateName,state_longitude,state_latitude,state_radius')
+                ->order_by('stateName','ASC')
+                ->get('state_details')
+                ->result();
+    }
+
     function get_hostel_detail($id)
     {
         return $this->db->select('id,hostel_name,morning,afternoon,evening,night')
