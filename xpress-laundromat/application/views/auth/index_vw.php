@@ -35,6 +35,7 @@
                         <p class="col-xs-12 col-sm-12"><span class="big">SIGNUP</span> to book your schedule</p>
                         <form id="signupFrm" >
                         <div class="col-xs-12 col-sm-12">
+
                             <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
                                 <select class="form-control select2" id="state_id" name="state_id">
                                     <option value="">City Name*</option>
@@ -70,7 +71,10 @@
                             </div>
                                 <small class="col-xs-12 col-sm-12 no-padding" id="emailid_err"></small>
                             </div>
-                            <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
+                            <div class="col-xs-12 col-sm-12 no-padding margin-top-10"
+                           
+                             <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
+
                                 <select class="form-control select2" id="college_id" name="college_id">
                                     <option value="">College Name*</option>
                                     <?php foreach($colleges as $college){?>
@@ -78,15 +82,40 @@
                                     <?php }?>
                                 </select>
                                 <small class="col-xs-12 col-sm-12" id="college_id_err"></small>
+                            </div>    
+                                
+                            <div class="col-sm-12 no-padding">
+                                <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
+                                    <input type="text" class="form-control" name="firstname" placeholder="First Name*">
+                                    <small class="col-xs-12 col-sm-12 no-padding" id="firstname_err"></small>
+                                </div>
+                                
                             </div>
+                            
+                            <div class="col-xs-12 col-sm-12 no-padding">
+                                
+                                <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
+                                    <input type="text" class="form-control" maxlength="10" name="phonenumber" placeholder="Phone Number">
+                                    <small class="col-xs-12 col-sm-12 no-padding" id="phonenumber_err"></small>
+                                </div>
+                                
+                                <div class="col-xs-12 col-sm-12 no-padding margin-top-10 ">
+                                    <input type="text" class="form-control" name="emailprefix" id="emailprefix" placeholder="Email*">
+                                    <input type="hidden" class="form-control" name="emailid" id="emailid">
+                                </div>
+                            </div>
+                            
+                                <!--<small class="col-xs-12 col-sm-12" id="state_id_err"></small>  -->
+                           
+                                
                             <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
                                 <select class="form-control select2" id="hostel_id" name="hostel_id">
-                                    <option value="">Hostel Block*</option>
+                                    <option value="">Hostel /Block*</option>
                                 </select>
                                 <small class="col-xs-12 col-sm-12" id="hostel_id_err"></small>
                             </div>
                             <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
-                                <input type="text" class="form-control" name="roomnumber" placeholder="Room Number*">
+                                <input type="text" class="form-control" name="roomnumber" placeholder="Room / Address ">
                                 <small class="col-xs-12 col-sm-12 no-padding" id="roomnumber_err"></small>
                             </div>
 
