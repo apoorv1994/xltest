@@ -492,7 +492,7 @@ class Londury extends CI_Model {
         {
             $user_id = $this->session->user_id;
         }
-        $this->db->select('a.id,a.status,a.created,a.firstname,a.lastname,a.wallet_balance,a.profile_pic,a.dob,a.gender,a.roll_no,a.phone_no,a.room_no,a.email_id,a.hostel_id,a.college_id,b.college_name,c.hostel_name')
+        $this->db->select('a.id,a.status,a.created,a.firstname,a.wallet_balance,a.profile_pic,a.phone_no,a.email_id,a.hostel_id,a.college_id,b.college_name,c.hostel_name')
             ->join('tbl_college b','a.college_id=b.id')
             ->join('tbl_hostel c','a.hostel_id=c.id')
                 ->where(['a.id'=>$user_id]);
@@ -610,7 +610,7 @@ class Londury extends CI_Model {
     
     function pickuporders($where,$where2,$start,$limit)
     {
-        $this->db->select("a.id,a.order_type,a.book_slot,a.pickup_type,a.status,a.payment_type ,a.iron,b.id as user_id,b.college_id,b.firstname,b.lastname,b.phone_no,b.room_no,c.hostel_name,book_date,d.token_no,d.weight,d.no_of_items,d.dropoff_time,e.college_name");
+        $this->db->select("a.id,a.order_type,a.book_slot,a.pickup_type,a.status,a.payment_type ,a.iron,b.id as user_id,b.college_id,b.firstname,b.phone_no,c.hostel_name,book_date,d.token_no,d.weight,d.no_of_items,d.dropoff_time,e.college_name");
         $this->db->join('tbl_users b','a.user_id=b.id');
         $this->db->join('tbl_hostel c','b.hostel_id=c.id');
 		$this->db->join('tbl_college e','b.college_id=e.id');
@@ -648,7 +648,7 @@ class Londury extends CI_Model {
     }
 	function countpickuporders($where,$where2,$start,$limit)
     {
-        $this->db->select("a.id,a.order_type,a.book_slot,a.pickup_type,a.status,a.payment_type ,a.iron,b.id as user_id,b.college_id,b.firstname,b.lastname,b.phone_no,b.room_no,c.hostel_name,book_date,d.token_no,d.weight,d.no_of_items,d.dropoff_time,e.college_name");
+        $this->db->select("a.id,a.order_type,a.book_slot,a.pickup_type,a.status,a.payment_type ,a.iron,b.id as user_id,b.college_id,b.firstname,b.phone_no,c.hostel_name,book_date,d.token_no,d.weight,d.no_of_items,d.dropoff_time,e.college_name");
         $this->db->join('tbl_users b','a.user_id=b.id');
         $this->db->join('tbl_hostel c','b.hostel_id=c.id');
 		$this->db->join('tbl_college e','b.college_id=e.id');
@@ -669,7 +669,7 @@ class Londury extends CI_Model {
     
     function homesearch($where,$where2,$start,$limit)
     {
-        $this->db->select("a.id,b.id as user_id,b.firstname,b.lastname,d.token_no");
+        $this->db->select("a.id,b.id as user_id,b.firstname,d.token_no");
         $this->db->from('tbl_order a');
         $this->db->join('tbl_users b','a.user_id=b.id');
         $this->db->join('tbl_order_details d','a.id=d.order_id','left');
@@ -720,7 +720,7 @@ class Londury extends CI_Model {
         {
             $where=['b.college_id' => $this->session->a_college_id];
         }
-        $this->db->select("a.book_slot,a.pickup_type,a.book_date ,b.id as user_id,b.firstname,b.lastname,b.phone_no,b.college_id,c.dropoff_time");
+        $this->db->select("a.book_slot,a.pickup_type,a.book_date ,b.id as user_id,b.firstname,b.phone_no,b.college_id,c.dropoff_time");
         $this->db->join('tbl_users b','a.user_id=b.id');
         $this->db->join('tbl_order_details c','a.id=c.order_id',$join);
         $this->db->where($where);
@@ -742,7 +742,7 @@ class Londury extends CI_Model {
             $where=['b.college_id' => $this->session->a_college_id];
             
         }
-        $this->db->select("a.id,a.book_slot,a.order_type ,a.payment_type,b.firstname,b.lastname,b.phone_no,b.room_no,b.roll_no,c.hostel_name,book_date,d.college_name");
+        $this->db->select("a.id,a.book_slot,a.order_type ,a.payment_type,b.firstname,b.phone_no,c.hostel_name,book_date,d.college_name");
         $this->db->join('tbl_users b','a.user_id=b.id');
         $this->db->join('tbl_hostel c','b.hostel_id=c.id');
         $this->db->join('tbl_college d','b.college_id=d.id');
@@ -926,7 +926,7 @@ class Londury extends CI_Model {
             $where['b.college_id'] = $this->session->a_college_id;
             $where2 = '(a.status =1 or a.status = 3) and a.status<> 5';
         }
-        $this->db->select("a.id,a.order_type,a.book_slot,a.payment_type,a.order_type,a.total_amount,a.pickup_type,a.book_slot,a.created,b.college_id,a.iron,b.firstname,b.lastname,b.phone_no,b.room_no,b.roll_no,b.wallet_balance,b.email_id,b.id as user_id,c.hostel_name,book_date,e.email as college_email,e.address,e.phone,e.service_tax_no,e.college_name,a.discount,a.coupon_applied");
+        $this->db->select("a.id,a.order_type,a.book_slot,a.payment_type,a.order_type,a.total_amount,a.pickup_type,a.book_slot,a.created,b.college_id,a.iron,b.firstname,b.phone_no,b.wallet_balance,b.email_id,b.id as user_id,c.hostel_name,book_date,e.email as college_email,e.address,e.phone,e.service_tax_no,e.college_name,a.discount,a.coupon_applied");
         $this->db->join('tbl_users b','a.user_id=b.id');
         $this->db->join('tbl_hostel c','b.hostel_id=c.id');
         $this->db->join('tbl_college e','b.college_id=e.id');
@@ -993,7 +993,7 @@ class Londury extends CI_Model {
             $where['b.college_id'] = $this->session->a_college_id;
             $where2 = '(a.status =1 or a.status = 3) and a.status<> 5';
         }
-        $this->db->select("a.id,a.book_slot,a.payment_type,a.order_type,a.total_amount,a.pickup_type,a.book_slot,a.created,b.college_id,a.iron,b.firstname,b.lastname,b.phone_no,b.room_no,b.roll_no,b.wallet_balance,b.email_id,b.id as user_id,c.hostel_name,book_date,d.token_no,d.weight,d.no_of_items,d.id as invoice_id,d.extra_amount,d.iron_cost,d.pickup_cost,d.total_amount as final_amount,d.created as invoice_date,e.email as college_email,e.address,e.phone,e.service_tax_no,e.college_name,a.discount,a.coupon_applied");
+        $this->db->select("a.id,a.book_slot,a.payment_type,a.order_type,a.total_amount,a.pickup_type,a.book_slot,a.created,b.college_id,a.iron,b.firstname,,b.phone_no,b.wallet_balance,b.email_id,b.id as user_id,c.hostel_name,book_date,d.token_no,d.weight,d.no_of_items,d.id as invoice_id,d.extra_amount,d.iron_cost,d.pickup_cost,d.total_amount as final_amount,d.created as invoice_date,e.email as college_email,e.address,e.phone,e.service_tax_no,e.college_name,a.discount,a.coupon_applied");
         $this->db->join('tbl_users b','a.user_id=b.id');
         $this->db->join('tbl_hostel c','b.hostel_id=c.id');
         $this->db->join('tbl_order_details d','d.order_id=a.id');
@@ -1126,7 +1126,7 @@ class Londury extends CI_Model {
     
     function sales_report($where,$where2)
     {
-        $this->db->select("a.id,a.book_slot,a.pickup_type,a.status,a.payment_type,a.created,a.book_slot,a.discount,a.coupon_applied,a.total_amount ,b.id as user_id,b.firstname,b.lastname,b.phone_no,b.room_no,c.hostel_name,book_date,d.id as invoice_id,d.dropoff_time,d.extra_amount,d.iron_cost,d.pickup_cost,d.gst,d.total_amount as final_amount,d.token_no,d.weight,d.no_of_items,d.dropoff_time,e.college_name");
+        $this->db->select("a.id,a.book_slot,a.pickup_type,a.status,a.payment_type,a.created,a.book_slot,a.discount,a.coupon_applied,a.total_amount ,b.id as user_id,b.firstname,b.phone_no,c.hostel_name,book_date,d.id as invoice_id,d.dropoff_time,d.extra_amount,d.iron_cost,d.pickup_cost,d.gst,d.total_amount as final_amount,d.token_no,d.weight,d.no_of_items,d.dropoff_time,e.college_name");
         $this->db->join('tbl_users b','a.user_id=b.id');
         $this->db->join('tbl_hostel c','b.hostel_id=c.id');
         $this->db->join('tbl_college e','b.college_id=e.id');
@@ -1260,7 +1260,7 @@ class Londury extends CI_Model {
 	
 	function searchOderExcel($where,$where2)
     {
-        $this->db->select("a.id,a.total_amount,a.order_type,a.book_slot,a.pickup_type,a.status,a.payment_type ,a.iron,b.id as user_id,b.college_id,b.firstname,b.lastname,b.phone_no,b.room_no,c.hostel_name,book_date,d.token_no,d.weight,d.no_of_items,d.dropoff_time,e.college_name");
+        $this->db->select("a.id,a.total_amount,a.order_type,a.book_slot,a.pickup_type,a.status,a.payment_type ,a.iron,b.id as user_id,b.college_id,b.firstname,b.phone_no,c.hostel_name,book_date,d.token_no,d.weight,d.no_of_items,d.dropoff_time,e.college_name");
         $this->db->join('tbl_users b','a.user_id=b.id');
         $this->db->join('tbl_hostel c','b.hostel_id=c.id');
 		$this->db->join('tbl_college e','b.college_id=e.id');
@@ -1302,7 +1302,7 @@ class Londury extends CI_Model {
 	
 	function newpickuporders($where,$where2,$start,$limit)
     {
-        $this->db->select("a.id,a.order_type,a.book_slot,a.pickup_type,a.status,a.payment_type ,a.iron,b.id as user_id,b.college_id,b.firstname,b.lastname,b.phone_no,b.room_no,c.hostel_name,book_date,d.token_no,d.weight,d.no_of_items,d.dropoff_time,e.college_name,i.quantity");
+        $this->db->select("a.id,a.order_type,a.book_slot,a.pickup_type,a.status,a.payment_type ,a.iron,b.id as user_id,b.college_id,b.firstname,b.phone_no,c.hostel_name,book_date,d.token_no,d.weight,d.no_of_items,d.dropoff_time,e.college_name,i.quantity");
         $this->db->join('tbl_users b','a.user_id=b.id');
         $this->db->join('tbl_hostel c','b.hostel_id=c.id');
 		$this->db->join('tbl_college e','b.college_id=e.id');

@@ -189,36 +189,33 @@ class Auth extends CI_Controller {
     function signup()
     {
         $this->_is_logged();
-        $this->form_validation->set_rules('firstname', 'First Name', 'trim|required|alpha_numeric_spaces|xss_clean');
+        $this->form_validation->set_rules('name', 'Name', 'trim|required|alpha_numeric_spaces|xss_clean');
         //$this->form_validation->set_rules('lastname', 'Last Name', 'trim|required|alpha_numeric_spaces|xss_clean');
         $this->form_validation->set_rules('college_id', 'College', 'trim|required|xss_clean');
-        $this->form_validation->set_rules('emailid', 'Email ID', 'trim|required|xss_clean|valid_email|callback_check_email');
+        $this->form_validation->set_rules('email_id', 'Email ID', 'trim|required|xss_clean|valid_email|callback_check_email');
         $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[6]|max_length[20]|matches[cpassword]');
         $this->form_validation->set_rules('cpassword', 'Confirm Password', 'trim|required|xss_clean');
         //$this->form_validation->set_rules('dob', 'Birthday', 'trim|required|xss_clean');
-        $this->form_validation->set_rules('gender', 'Gender', 'trim|required|xss_clean');
+        //$this->form_validation->set_rules('gender', 'Gender', 'trim|required|xss_clean');
         $this->form_validation->set_rules('phonenumber', 'Phone No', 'trim|required|numeric|xss_clean|is_unique[tbl_users.phone_no]');
         $this->form_validation->set_rules('hostel_id', 'Hostel', 'trim|required|xss_clean');
-        $this->form_validation->set_rules('roomnumber', 'Room Number', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('state_id', 'City Name', 'trim|required|xss_clean');
         //$this->form_validation->set_rules('rollnumber', 'Roll Number', 'trim|required|xss_clean');
         $this->form_validation->set_rules('terms', 'Terms and Condition', 'trim|required|xss_clean');
 //        $this->form_validation->set_message('is_unique', 'The %s already taken, Try another.');
         if($this->form_validation->run())
         {
-            $new_dob = strtotime($this->input->post('dob')); 
+            //$new_dob = strtotime($this->input->post('dob')); 
             $code=rand(0000,999999);
             $profile = BASE.'assets/img/default.jpg';
-            $val=['firstname'=>$this->input->post('firstname'),'lastname'=>$this->input->post('lastname'),'profile_pic'=>$profile,'email_id'=>$this->input->post('emailid'),
-                'password'=>md5($this->input->post('password')),'dob'=>$new_dob,'gender'=>$this->input->post('gender'),'roll_no'=>  $this->input->post('rollnumber'),
-                'room_no'=>  $this->input->post('roomnumber'),'college_id'=>  $this->input->post('college_id'),'hostel_id'=>  $this->input->post('hostel_id'),
-                'phone_no'=>  $this->input->post('phonenumber') ,'created'=>time(),'status'=>'1','verification_key'=>$code];
+            $val=['name'=>$this->input->post('firstname'),'profile_pic'=>$profile,'email_id'=>$this->input->post('emailid'),'password'=>md5($this->input->post('password')),'college_id'=>  $this->input->post('college_id'),'hostel_id'=>  $this->input->post('hostel_id'),'phone_no'=>  $this->input->post('phonenumber') ,'created'=>time(),'status'=>'1','verification_key'=>$code];
             $data=['val'=>$val,'table'=>'tbl_users'];
             $this->common->add_data($data);
 			
 				$emailid=$this->input->post('emailid');
 				$pass=$this->input->post('password');
 				$dropmsg1 = "Hello ".$this->input->post('firstname').", Welcome to XL. Complete freedom from Laundry. Login to http://xpresslaundromat.in with Username: $emailid Password: $pass Download the APP:";
-                $msg1 = urlencode($dropmsg1);
+                $msg1 = urlencode($dropmsg1);       
                 $mobile1 = $this->input->post('phonenumber');
                 $url1 = "http://www.siegsms.com/SendingSms.aspx?userid=xpress&pass=xpress@123&phone=$mobile1&msg=$msg1&title=XLOMAT";
 				$res1 = file_get_contents($url1);
@@ -241,11 +238,11 @@ class Auth extends CI_Controller {
                 echo json_encode(['status'=>FALSE,'error'=>['main_err'=>'Something went wrong, Try Again.']]);
             } 
         }else{
-            $error = ['firstname_err'=>  form_error('firstname','<div class="err">','</div>'),'lastname_err'=>  form_error('lastname','<div class="err">','</div>'),'emailid_err'=>form_error('emailid','<div class="err">','</div>'),
-                'dob_err'=>form_error('dob','<div class="err">','</div>'),'gender_err'=>form_error('gender','<div class="err">','</div>'),'rollnumber_err'=>form_error('rollnumber','<div class="err">','</div>'),
+            $error = ['firstname_err'=>  form_error('firstname','<div class="err">','</div>'),'emailid_err'=>form_error('email_id','<div class="err">','</div>'),
                 'phonenumber_err'=>form_error('phonenumber','<div class="err">','</div>'),'college_id_err'=>form_error('college_id','<div class="err">','</div>'),
-                'hostel_id_err'=>form_error('hostel_id','<div class="err">','</div>'),'roomnumber_err'=>form_error('roomnumber','<div class="err">','</div>'),'password_err'=>form_error('password','<div class="err">','</div>'),
-                'cpassword_err'=>form_error('cpassword','<div class="err">','</div>'),'terms_err'=>form_error('terms','<div class="err">','</div>')];
+                'state_id_err'=>form_error('state_id','<div class="err">','</div>'),'hostel_id_err'=>form_error('hostel_id','<div class="err">','</div>'),
+                'password_err'=>form_error('password','<div class="err">','</div>'),'cpassword_err'=>form_error('cpassword','<div class="err">','</div>'),
+                'terms_err'=>form_error('terms','<div class="err">','</div>')];
             echo json_encode(['status'=>  FALSE,'error'=>$error]);
         }
     }

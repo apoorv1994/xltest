@@ -20,7 +20,7 @@ class Home extends CI_Controller {
 
         $pagedata['hslots'] = $last_order['slots'];
         $pagedata['droptime'] = '';
-        $pagedata['details'] = $this->users->get_user('firstname,wallet_balance,profile_pic,phone_no,room_no,college_id,hostel_id',  $this->session->user_id);
+        $pagedata['details'] = $this->users->get_user('firstname,wallet_balance,profile_pic,phone_no,college_id,hostel_id',  $this->session->user_id);
         $this->db->select('slot_type,start_time,end_time,slots_available,pickup_time');
         $pagedata['slots'] = $this->db->from('tbl_slot_type')->where(['college_id'=>$pagedata['details']->college_id])->get()->result();
         $pagedata['hostel_details'] = $this->londury->get_hostel_detail($pagedata['details']->hostel_id);
@@ -55,7 +55,7 @@ class Home extends CI_Controller {
 
     function get_user() 
     {
-        echo json_encode($this->users->get_user('firstname,wallet_balance,profile_pic,phone_no,room_no,college_id,hostel_id',  $this->session->user_id));
+        echo json_encode($this->users->get_user('firstname,wallet_balance,profile_pic,phone_no,college_id,hostel_id',  $this->session->user_id));
     }
     
     function drycleaning()
@@ -67,7 +67,7 @@ class Home extends CI_Controller {
         $pagedata['last_order'] = $last_order['last_order'];
         
         $pagedata['hslots'] = $last_order['slot'];
-        $pagedata['details'] = $this->users->get_user('firstname,profile_pic,wallet_balance,phone_no,room_no,college_id,hostel_id',  $this->session->user_id);
+        $pagedata['details'] = $this->users->get_user('firstname,profile_pic,wallet_balance,phone_no,college_id,hostel_id',  $this->session->user_id);
         $pagedata['hostel_details'] = $this->londury->get_hostel_detail($pagedata['details']->hostel_id);
         $pagedata['slots'] = $this->londury->get_slot($pagedata['details']->college_id);
         $pagedata['price'] = '0.00';
@@ -86,7 +86,7 @@ class Home extends CI_Controller {
         $pagedata['last_order'] = $last_order['last_order'];
         
         $pagedata['hslots'] = $last_order['slot'];
-        $pagedata['details'] = $this->users->get_user('firstname,profile_pic,wallet_balance,phone_no,room_no,college_id,hostel_id',  $this->session->user_id);
+        $pagedata['details'] = $this->users->get_user('firstname,profile_pic,wallet_balance,phone_no,college_id,hostel_id',  $this->session->user_id);
         $pagedata['hostel_details'] = $this->londury->get_hostel_detail($pagedata['details']->hostel_id);
         $pagedata['slots'] = $this->londury->get_slot($pagedata['details']->college_id);
         $pagedata['price'] = "0.00";
@@ -105,7 +105,7 @@ class Home extends CI_Controller {
         $pagedata['last_order'] = $last_order['last_order'];
         
         $pagedata['hslots'] = $last_order['slot'];
-        $pagedata['details'] = $this->users->get_user('firstname,profile_pic,wallet_balance,phone_no,room_no,college_id,hostel_id',  $this->session->user_id);
+        $pagedata['details'] = $this->users->get_user('firstname,profile_pic,wallet_balance,phone_no,college_id,hostel_id',  $this->session->user_id);
         $pagedata['slots'] = $this->londury->get_slot($pagedata['details']->college_id);
         $pagedata['hostel_details'] = $this->londury->get_hostel_detail($pagedata['details']->hostel_id);
         //$pagedata['price'] = $this->londury->get_options('sc_shoe_price',  $this->session->college_id);
@@ -377,7 +377,7 @@ function get_delivery_date($book,$close_info,$type)
 			
             
             $pagedata = ['invoice_id'=>'XPL'.$invoice->invoice_id,'order_no'=>$id,'invoice_date'=>date('d-m-Y',$invoice->invoice_date),'hostel_name'=>$invoice->hostel_name,'college_name'=>$invoice->college_name,'college_email'=>$invoice->college_email,'phone'=>$invoice->phone,'college_address'=>$invoice->address,
-                        'order_date'=>date('d-m-Y',$invoice->created),'customer_name'=>$invoice->firstname.' '.$invoice->lastname,'room_no'=>$invoice->room_no,
+                        'order_date'=>date('d-m-Y',$invoice->created),'customer_name'=>$invoice->firstname,
                         'mobile'=>$invoice->phone_no,'no_of_clothes'=>$invoice->no_of_items,'washtype'=>$booktype[$invoice->order_type.$invoice->iron],'order_type'=>$invoice->order_type,
                         'weight'=>$invoice->weight,'iron_qty'=>$iron->iron_no,'iron_rate'=>$invoice->settings['iron_price'],
                         'iron_amount'=>$iron->total_iron_price,'pick_rate'=>$invoice->settings['pickdrop'],'pick_cost'=>$invoice->pickup_cost,

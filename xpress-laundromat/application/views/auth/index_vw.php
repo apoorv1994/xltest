@@ -34,18 +34,18 @@
                     <div class="col-xs-12 col-sm-3 signup">
                         <p class="col-xs-12 col-sm-12"><span class="big">SIGNUP</span> to book your schedule</p>
                         <form id="signupFrm" >
-                        <div class="col-xs-12 col-sm-12">
+                        
                             <div class="col-sm-12 no-padding">
-                                <div class="col-xs-12 col-sm-6 no-padding margin-top-10">
-                                    <input type="text" class="form-control" name="firstname" placeholder="First Name*">
-                                    <small class="col-xs-12 col-sm-12 no-padding" id="firstname_err"></small>
-                                </div>
-                                <div class="col-xs-12 col-sm-6 no-padding margin-top-10">
+                            <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
+                                <input type="text" class="form-control" name="firstname" placeholder="Name*">
+                                <small class="col-xs-12 col-sm-12 no-padding" id="firstname_err"></small>
+                            </div>
+                                <!--<div class="col-xs-12 col-sm-6 no-padding margin-top-10">
                                     <input type="text" class="form-control" name="lastname" placeholder="Last Name">
                                     <small class="col-xs-12 col-sm-12 no-padding" id="lastname_err"></small>
-                                </div>
+                                </div> -->
                             </div>
-                            <div class="col-xs-12 col-sm-12 no-padding">
+                            <!--<div class="col-xs-12 col-sm-12 no-padding">
                                 <div class="col-xs-12 col-sm-6 no-padding margin-top-10">
                                     <input type="text" class="form-control" id="dob" name="dob" placeholder="Date Of Birth">
                                     <small class="col-xs-12 col-sm-12 no-padding" id="dob_err"></small>
@@ -58,23 +58,28 @@
                                     </select>
                                     <small class="col-xs-12 col-sm-12 no-padding" id="gender_err"></small>
                                 </div>
-                            </div>
-                            <div class="col-xs-12 col-sm-12 no-padding">
+                            </div> -->
+                            <!--<div class="col-xs-12 col-sm-12 no-padding">
                                 <div class="col-xs-12 col-sm-6 no-padding margin-top-10">
                                     <input type="text" class="form-control" name="rollnumber" placeholder="Roll Number">
                                     <small class="col-sm-12 no-padding" id="rollnumber_err"></small>
-                                </div>
-                                <div class="col-xs-12 col-sm-6 no-padding margin-top-10">
+                                </div> -->
+                                <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
                                     <input type="text" class="form-control" maxlength="10" name="phonenumber" placeholder="Phone Number*">
                                     <small class="col-xs-12 col-sm-12 no-padding" id="phonenumber_err"></small>
                                 </div>
+                            
+                            <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
+                            <div class="col-xs-12 col-sm-12 no-padding ">
+                                <input type="text" class="form-control" name="email_id" id="email_id" placeholder="Email*">
+                                <small class="col-xs-12 col-sm-12 no-padding" id="emailid_err"></small>
                             </div>
                             <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
                                 <select class="form-control select2" id="state_id" name="state_id">
                                     <option value="">City Name*</option>
                                     
                                 </select>
-                                <!--<small class="col-xs-12 col-sm-12" id="state_id_err"></small>  -->
+                                <small class="col-xs-12 col-sm-12" id="state_id_err"></small>
                             <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
                                 <select class="form-control select2" id="college_id" name="college_id">
                                     <option value="">College Name*</option>
@@ -87,20 +92,16 @@
                                 </select>
                                 <small class="col-xs-12 col-sm-12" id="hostel_id_err"></small>
                             </div>
-                            <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
+                            <!--<div class="col-xs-12 col-sm-12 no-padding margin-top-10">
                                 <input type="text" class="form-control" name="roomnumber" placeholder="Room Number*">
                                 <small class="col-xs-12 col-sm-12 no-padding" id="roomnumber_err"></small>
-                            </div>
-                            <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
-                            <div class="col-xs-6 col-sm-6 no-padding ">
-                                <input type="text" class="form-control" name="emailprefix" id="emailprefix" placeholder="Collage Email*">
-                                <input type="hidden" class="form-control" name="emailid" id="emailid">
-                            </div>
-                            <div class="col-xs-6 col-sm-6 no-padding">
+                            </div> -->
+
+                            <!--<div class="col-xs-6 col-sm-6 no-padding">
                                 <input type="text" class="form-control" style="color: rgba(98, 98, 98, 1)" id="emailsuffix" name="emailsuffix" placeholder="Select College First*">
                             </div>
                                 <small class="col-xs-12 col-sm-12 no-padding" id="emailid_err"></small>
-                            </div>
+                            </div>-->
                             <div class="col-sm-12 no-padding">
                                 <div class="col-xs-12 col-sm-6 no-padding margin-top-10">
                                     <input type="password" class="form-control" name="password" placeholder="Password*">
@@ -109,6 +110,14 @@
                                 <div class="col-xs-12 col-sm-6 no-padding margin-top-10">
                                     <input type="password" class="form-control" name="cpassword" placeholder="Confirm Password*">
                                     <small class="col-xs-12 col-sm-12 no-padding" id="cpassword_err"></small>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 no-padding">
+                                <div class="col-xs-12 col-sm-6 no-padding margin-top-10">
+                                    <text type="text" class="form-control" color="navy" ><font color="navy">Referral Code</font></text>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 no-padding margin-top-10">
+                                    <input type="text" class="form-control" name="referral_code" placeholder="referral Code">
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
