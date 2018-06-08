@@ -53,10 +53,10 @@ else
                     <div class="col-xs-6 col-sm-6 no-padding">Phone No.</div>
                     <div class="col-xs-6 col-sm-6 no-padding">: +91 <?=$details->phone_no?></div>
                 </div>
-                <div class="col-xs-12 col-sm-12 no-padding">
+                <!--<div class="col-xs-12 col-sm-12 no-padding">
                     <div class="col-xs-6 col-sm-6 no-padding">Room No</div>
                     <div class="col-xs-6 col-sm-6 no-padding">: <?=$details->room_no?></div>
-                </div>
+                </div> -->
                 <div class="col-xs-12 col-sm-12 no-padding ">
                     <div class="col-xs-6 col-sm-6 no-padding">Wallet Balance</div>
                     <div class="col-xs-6 col-sm-6 no-padding">: <i class="fa fa-inr"></i> <?=$details->wallet_balance?></div>
@@ -524,6 +524,7 @@ else
         
         $('#orderBtn').click(function(){
             var url = '<?=BASE?>home/order';
+            window.alert(url);
             var data = $('#orderFrm').serialize();
 			var quantity_shirt =parseInt($("input[name=quantity_shirt]").val());
 			var quantity_pants =parseInt($("input[name=quantity_pants]").val());
@@ -537,7 +538,7 @@ else
 			var premiumTotalCloTh=quantity_shirt+quantity_pants+quantity_undergarments+quantity_towel+quantity_others;
 			if(order_type=='drycleaning' || order_type=='premium')
 			{
-				
+				//window.alert()
 				var total_qty = 0;
 				$('.qty').each(function(){
 				   var qty = $(this).val();
@@ -557,13 +558,17 @@ else
 					return false;
 				}
 			}
-			
+			var url2 = '<?=BASE?>home/get_user';
+            window.alert(url2);
             $.get('<?=BASE?>home/get_user', function(dat){
                 dat = JSON.parse(dat);
                 data += '&college_id='+dat.college_id;
                 data += '&hostel_id='+dat.hostel_id;
+                window.alert(url);
+                window.alert(data);
                 $.post(url,data,function(success){
                     var res = JSON.parse(success);
+                    window.alert(res);
                     if(res.status)
                     {
                         window.location.href = '<?=BASE?>home/order_summary';

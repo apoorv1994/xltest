@@ -30,9 +30,9 @@ class User extends CI_Controller {
     {
         $udata = $this->users->get_user('phone_no',  $this->session->user_id);
         $this->form_validation->set_rules('firstname', 'First Name', 'trim|required|alpha_numeric_spaces|xss_clean');
-        $this->form_validation->set_rules('lastname', 'Last Name', 'trim|required|alpha_numeric_spaces|xss_clean');
-        $this->form_validation->set_rules('dob', 'Birthday', 'trim|required|xss_clean');
-        $this->form_validation->set_rules('gender', 'Gender', 'trim|required|xss_clean');
+        //$this->form_validation->set_rules('lastname', 'Last Name', 'trim|required|alpha_numeric_spaces|xss_clean');
+        //$this->form_validation->set_rules('dob', 'Birthday', 'trim|required|xss_clean');
+        //$this->form_validation->set_rules('gender', 'Gender', 'trim|required|xss_clean');
         if($udata->phone_no!=$this->input->post('phonenumber'))
         {
         $this->form_validation->set_rules('phonenumber', 'Phone No', 'trim|required|xss_clean|is_unique[tbl_users.phone_no]');
@@ -41,25 +41,21 @@ class User extends CI_Controller {
         }
 //        $this->form_validation->set_rules('college_id', 'College', 'trim|required|xss_clean');
         $this->form_validation->set_rules('hostel_id', 'Hostel', 'trim|required|xss_clean');
-        $this->form_validation->set_rules('roomnumber', 'Room Number', 'trim|required|xss_clean');
-        $this->form_validation->set_rules('rollnumber', 'Roll Number', 'trim|required|xss_clean');
+        //$this->form_validation->set_rules('roomnumber', 'Room Number', 'trim|required|xss_clean');
+        //$this->form_validation->set_rules('rollnumber', 'Roll Number', 'trim|required|xss_clean');
         $this->form_validation->set_message('is_unique', 'The %s already taken, Try another.');
         if($this->form_validation->run())
         {
-            $new_dob = strtotime($this->input->post('dob'));
-            $val=['firstname'=>$this->input->post('firstname'),'lastname'=>$this->input->post('lastname')
-                ,'dob'=>$new_dob,'gender'=>$this->input->post('gender'),'roll_no'=>  $this->input->post('rollnumber'),
-                'room_no'=>  $this->input->post('roomnumber'),'hostel_id'=>  $this->input->post('hostel_id'),
+            $val=['firstname'=>$this->input->post('firstname'),'hostel_id'=>  $this->input->post('hostel_id'),
                 'phone_no'=>  $this->input->post('phonenumber')];
             $data=['val'=>$val,'table'=>'tbl_users','where'=>['id'=>  $this->session->user_id]];
             $this->common->update_data($data);
             
             echo json_encode(['status'=>TRUE,'rdir'=>'user']);
         }else{
-            $error = ['firstname_err'=>  form_error('firstname','<div class="err">','</div>'),'lastname_err'=>  form_error('lastname','<div class="err">','</div>'),'emailid_err'=>form_error('emailid','<div class="err">','</div>'),
-                'dob_err'=>form_error('dob','<div class="err">','</div>'),'gender_err'=>form_error('gender','<div class="err">','</div>'),'rollnumber_err'=>form_error('rollnumber','<div class="err">','</div>'),
+            $error = ['firstname_err'=>  form_error('firstname','<div class="err">','</div>'),'emailid_err'=>form_error('emailid','<div class="err">','</div>'),
                 'phonenumber_err'=>form_error('phonenumber','<div class="err">','</div>'),'college_id_err'=>form_error('college_id','<div class="err">','</div>'),
-                'hostel_id_err'=>form_error('hostel_id','<div class="err">','</div>'),'roomnumber_err'=>form_error('roomnumber','<div class="err">','</div>'),'password_err'=>form_error('password','<div class="err">','</div>'),
+                'hostel_id_err'=>form_error('hostel_id','<div class="err">','</div>'),'password_err'=>form_error('password','<div class="err">','</div>'),
                 'cpassword_err'=>form_error('cpassword','<div class="err">','</div>'),'terms_err'=>form_error('terms','<div class="err">','</div>')];
             echo json_encode(['status'=>  FALSE,'error'=>$error]);
         }

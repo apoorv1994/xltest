@@ -35,7 +35,7 @@ class Reports extends CI_Controller {
         $where2=[];
         $where = '';
         if($search!='')
-        $where = '(concat(firstname, " ",lastname) like "'.$search.'%" or email_id like "'.$search.'%" or roll_no like "'.$search.'%" )';
+        $where = '(firstname like "'.$search.'%" or email_id like "'.$search.'%" )';
         if($college!='')
         {
             $where2['a.college_id']=$college;
@@ -127,7 +127,7 @@ class Reports extends CI_Controller {
             {
             ?>
             <tr>
-                <td><?=$users->firstname.' '.$users->lastname?></td>
+                <td><?=$users->firstname?></td>
                 <td><?=$users->college_name?></td>
                 <td class="col-bl"><i class="fa fa-inr"></i> <?=$users->avg_order?></td>
                 <td><?=$users->avg_timediff?></td>
@@ -211,7 +211,7 @@ class Reports extends CI_Controller {
                 $indi = $product->washtype_freq[2]?$product->washtype_freq[2]:'0';
                 $dry = $product->washtype_freq[3]?$product->washtype_freq[3]:'0';
                 $this->excel->getActiveSheet()->setCellValue('A'.$j, $i);
-                $this->excel->getActiveSheet()->setCellValue('B'.$j, $product->firstname.' '.$product->lastname);
+                $this->excel->getActiveSheet()->setCellValue('B'.$j, $product->firstname);
                 $this->excel->getActiveSheet()->setCellValue('C'.$j, $product->college_name);
                 $this->excel->getActiveSheet()->setCellValue('D'.$j, $product->avg_order);
                 $this->excel->getActiveSheet()->setCellValue('E'.$j, $product->avg_timediff);
@@ -455,13 +455,10 @@ class Reports extends CI_Controller {
             {
             ?>
             <tr>
-                <td><?=$users->firstname.' '.$users->lastname?></td>
+                <td><?=$users->firstname?></td>
                 <td><?=$users->college_name?></td>
                 <td class="col-bl"><?=$users->email_id?></td>
                 <td><?=$users->phone_no?></td>
-                <td> <?=$users->gender==1?'Male':'Female'?></td>
-                <td> <?=$users->roll_no?></td>
-                <td> <?=$users->room_no?></td>
                 <td> <?=$users->wallet_balance?></td>
         </tr>
             <?php $i++;}?>
@@ -501,9 +498,6 @@ class Reports extends CI_Controller {
             $this->excel->getActiveSheet()->setCellValue('C1', 'College Name');
             $this->excel->getActiveSheet()->setCellValue('D1', 'Email');
             $this->excel->getActiveSheet()->setCellValue('E1', 'Phone No');
-            $this->excel->getActiveSheet()->setCellValue('F1', 'Gender');
-            $this->excel->getActiveSheet()->setCellValue('G1', 'Roll No');
-            $this->excel->getActiveSheet()->setCellValue('H1', 'Room No');
             $this->excel->getActiveSheet()->setCellValue('I1', 'Wallet Balance');
             
             $i = 1;$j = 2;
@@ -511,13 +505,10 @@ class Reports extends CI_Controller {
             {
                 $row = array();
                 $this->excel->getActiveSheet()->setCellValue('A'.$j, $i);
-                $this->excel->getActiveSheet()->setCellValue('B'.$j, $product->firstname.' '.$product->lastname);
+                $this->excel->getActiveSheet()->setCellValue('B'.$j, $product->firstname);
                 $this->excel->getActiveSheet()->setCellValue('C'.$j, $product->college_name);
                 $this->excel->getActiveSheet()->setCellValue('D'.$j, $product->email_id);
                 $this->excel->getActiveSheet()->setCellValue('E'.$j, $product->phone_no);
-                $this->excel->getActiveSheet()->setCellValue('F'.$j, $product->gender==1?'Male':'Female');
-                $this->excel->getActiveSheet()->setCellValue('G'.$j, $product->roll_no);
-                $this->excel->getActiveSheet()->setCellValue('H'.$j, $product->room_no);
                 $this->excel->getActiveSheet()->setCellValue('I'.$j, $product->wallet_balance);
                 $i++;$j++;
             }
@@ -638,8 +629,8 @@ class Reports extends CI_Controller {
                         $text = 'Completed';
                         break;
                 }
-                $user_details = $product->firstname." ".$product->lastname;
-		$hostel_name = $product->hostel_name."\n".$product->room_no;
+                $user_details = $product->firstname;
+		$hostel_name = $product->hostel_name;
                 $this->excel->getActiveSheet()->setCellValue('A'.$j, $i);
                 $this->excel->getActiveSheet()->setCellValue('B'.$j, $product->id);
                 $this->excel->getActiveSheet()->setCellValue('C'.$j, $user_details);

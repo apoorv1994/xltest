@@ -16,19 +16,19 @@
                 <form id="updateFrm">
                     <div class="col-sm-6 border-right" >
                     <div class="col-sm-12 no-padding m-t-10">
-                        <div class="col-sm-5">First Name*</div>
+                        <div class="col-sm-5">Name*</div>
                         <div class="col-sm-7">
                             <input type="text" name="firstname" class="form-control" value="<?=$details->firstname?>" />
                             <small class="col-sm-12 no-padding" id="firstname_err"></small>
                         </div>
                     </div>
-                    <div class="col-sm-12 no-padding m-t-10">
+                    <!--<div class="col-sm-12 no-padding m-t-10">
                         <div class="col-sm-5">Roll No.*</div>
                         <div class="col-sm-7">
                             <input type="text" name="rollnumber" class="form-control" value="<?=$details->roll_no?>" />
                             <small class="col-sm-12 no-padding" id="rollnumber_err"></small>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="col-sm-12 no-padding m-t-10">
                         <div class="col-sm-5">College Name*</div>
                         <div class="col-sm-7">
@@ -50,22 +50,22 @@
                             <small class="col-sm-12 no-padding" id="hostel_id_err"></small>
                         </div>
                     </div>
-                    <div class="col-sm-12 no-padding m-t-10">
+                    <!--<div class="col-sm-12 no-padding m-t-10">
                         <div class="col-sm-5">Room No*</div>
                         <div class="col-sm-7">
                             <input type="text" name="roomnumber" class="form-control" value="<?=$details->room_no?>" />
                             <small class="col-sm-12 no-padding" id="roomnumber_err"></small>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
                 <div class="col-sm-6">
-                    <div class="col-sm-12 no-padding m-t-10">
+                    <!--<div class="col-sm-12 no-padding m-t-10">
                         <div class="col-sm-5">Last Name*</div>
                         <div class="col-sm-7">
                             <input type="text" name="lastname" class="form-control" value="<?=$details->lastname?>" />
                             <small class="col-sm-12 no-padding" id="lastname_err"></small>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="col-sm-12 no-padding m-t-10">
                         <div class="col-sm-5">Phone No.*</div>
                         <div class="col-sm-7">
@@ -77,7 +77,7 @@
                         <div class="col-sm-5">Email ID*</div>
                         <div class="col-sm-7"><input type="text" readonly="" class="form-control" value="<?=$details->email_id?>" /></div>
                     </div>
-                    <div class="col-sm-12 no-padding m-t-10">
+                    <!--<div class="col-sm-12 no-padding m-t-10">
                         <div class="col-sm-5">Gender*</div>
                         <div class="col-sm-7">
                             <select class="form-control select2" name="gender">
@@ -95,7 +95,7 @@
                             <small class="col-sm-12 no-padding" id="dob_err"></small>
                         </div>
                     </div>
-                </div>
+                </div>-->
                 <div class="col-sm-8  m-t-10 upinfo">
                     <a class="form-control loginbtn" id="update_profile" href="javascript:void(0)" title="Update Info">Update Info <i class="fa fa-arrow-right pull-right" id="loader"></i></a>
                     <small id="main_err"></small>

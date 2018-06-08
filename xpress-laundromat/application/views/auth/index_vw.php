@@ -35,15 +35,51 @@
                         <p class="col-xs-12 col-sm-12"><span class="big">SIGNUP</span> to book your schedule</p>
                         <form id="signupFrm" >
                         <div class="col-xs-12 col-sm-12">
+
                             <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
                                 <select class="form-control select2" id="state_id" name="state_id">
                                     <option value="">City Name*</option>
-                                    
                                 </select>
-                                
+                                <small class="col-xs-12 col-sm-12" id="state_id_err"></small>
+                            </div>
+
+                            <div class="col-sm-12 no-padding">
+                                <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
+                                    <input type="text" class="form-control" name="firstname" placeholder="First Name*">
+                                    <small class="col-xs-12 col-sm-12 no-padding" id="firstname_err"></small>
+                                </div>
+                                <!--<div class="col-xs-12 col-sm-6 no-padding margin-top-10">
+                                    <input type="text" class="form-control" name="lastname" placeholder="Last Name">
+                                    <small class="col-xs-12 col-sm-12 no-padding" id="lastname_err"></small>
+                                </div> -->
+                            </div>
+                          
+                            <div class="col-xs-12 col-sm-12 no-padding">
+                                <!--<div class="col-xs-12 col-sm-6 no-padding margin-top-10">
+                                    <input type="text" class="form-control" name="rollnumber" placeholder="Roll Number">
+                                    <small class="col-sm-12 no-padding" id="rollnumber_err"></small>
+                                </div>-->
+                                <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
+                                    <input type="text" class="form-control" maxlength="10" name="phonenumber" placeholder="Phone Number*">
+                                    <small class="col-xs-12 col-sm-12 no-padding" id="phonenumber_err"></small>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
+                            <div class="col-xs-12 col-sm-12 no-padding ">
+                                <input type="text" class="form-control" name="emailprefix" id="emailprefix" placeholder="Collage Email*">
+                                <input type="hidden" class="form-control" name="emailid" id="emailid">
+                            </div>
+                                <small class="col-xs-12 col-sm-12 no-padding" id="emailid_err"></small>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 no-padding margin-top-10"
+                           
                              <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
+
                                 <select class="form-control select2" id="college_id" name="college_id">
                                     <option value="">College Name*</option>
+                                    <?php foreach($colleges as $college){?>
+                                    <option value="<?=$college->id?>"><?=$college->college_name?></option>
+                                    <?php }?>
                                 </select>
                                 <small class="col-xs-12 col-sm-12" id="college_id_err"></small>
                             </div>    
@@ -82,16 +118,16 @@
                                 <input type="text" class="form-control" name="roomnumber" placeholder="Room / Address ">
                                 <small class="col-xs-12 col-sm-12 no-padding" id="roomnumber_err"></small>
                             </div>
-                            
+
                             <div class="col-sm-12 no-padding">
-                                <div class="col-xs-12 col-sm-6 no-padding margin-top-10">
+                                <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
                                     <input type="password" class="form-control" name="password" placeholder="Password*">
                                     <small class="col-xs-12 col-sm-12 no-padding" id="password_err"></small>
                                 </div>
-                                <div class="col-xs-12 col-sm-6 no-padding margin-top-10">
+                                <!--<div class="col-xs-12 col-sm-6 no-padding margin-top-10">
                                     <input type="password" class="form-control" name="cpassword" placeholder="Confirm Password*">
                                     <small class="col-xs-12 col-sm-12 no-padding" id="cpassword_err"></small>
-                                </div>
+                                </div> -->
                             </div>
                             <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
                                 <input type="checkbox" name="terms" value="1"> I agree to the Xpressomat <a href="<?=BASE?>terms">Terms of Service</a>*
@@ -310,7 +346,6 @@ way to clean my clothes without stress.</p>
             </div>
             <!-- END PLACE PAGE CONTENT HERE -->
           </div>
-</body>
           <!-- END CONTAINER FLUID -->
           <script src="<?=BASE?>assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" ></script>
           <script src="<?=BASE?>assets/plugins/moment/moment.min.js"></script>
@@ -320,15 +355,17 @@ way to clean my clothes without stress.</p>
                   var global_lat=14.98491956;
                   var global_long=91.60019175;
 
-                  $('#emailprefix,#emailsuffix').keyup(function(){
-                      $('#emailid').val($(this).val()+$('#emailsuffix').val());
+                  $('#emailprefix').keyup(function(){
+                      $('#emailid').val($(this).val());
                   })
-                  $('#emailprefix,#emailsuffix').blur(function(){
-                      $('#emailid').val($(this).val()+$('#emailsuffix').val());
+                  $('#emailprefix').blur(function(){
+                      $('#emailid').val($(this).val());
                   })
                   $('#showsignup').click(function(){
                     if (navigator.geolocation) {
                         navigator.geolocation.getCurrentPosition(function(position) {
+                        $('.signin').hide('fade');
+                        $('.signup').show('fade');
                         option_allow = 1;
                         var id = 1;
                         var url = '<?=BASE?>auth/get-location-info';
@@ -338,8 +375,6 @@ way to clean my clothes without stress.</p>
                         global_long = current_long;
                         //window.alert("Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude);
                         // display signup form
-                        $('.signin').hide('fade');
-                        $('.signup').show('fade');
                         var url = '<?=BASE?>auth/get-location-info';   // get city details from the database table
                         //window.alert(url);
                         $.get(url,function(success){
@@ -417,11 +452,7 @@ way to clean my clothes without stress.</p>
                       $('.signin').show('fade');
                       $('.signup').hide('fade')
                   });
-                  $('#dob').datepicker({
-                      format: 'dd-mm-yyyy',
-                      endDate: '-3650d',
-                      autoclose:true
-                  });
+                  
                   $('.select2').select2();
 
                   $('#state_id').change(function(){
@@ -480,8 +511,8 @@ way to clean my clothes without stress.</p>
 
                   
                   $('#college_id').change(function(){
-                      $('#emailprefix').val('');
-                      $('#emailid').val('');
+                      //$('#emailprefix').val('');
+                      //$('#emailid').val('');
                         var id = $(this).val();
                         //window.alert(option_allow);
                         var url = '<?=BASE?>auth/get-hostel/'+id;
@@ -511,9 +542,11 @@ way to clean my clothes without stress.</p>
                       $('#loader').addClass('fa-spin fa-spinner');
                       $('#main_err').html('');
                       var url = '<?=BASE?>auth/signup';
+                      //window.alert(url);
                       var data = $('#signupFrm').serialize();
                       $.post(url,data,function(success){
                             var res = JSON.parse(success);
+                            //window.alert(res.status)
                             if(res.status)
                             {
                                 $('#loader').removeClass('fa-spin fa-spinner');
