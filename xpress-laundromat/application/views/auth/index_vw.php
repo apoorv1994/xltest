@@ -1,5 +1,6 @@
 <body onclick="showsignup">
 <link rel="stylesheet" href="<?=BASE?>assets/plugins/bootstrap-datepicker/css/datepicker3.css" />
+<link rel="stylesheet" href="<?=BASE?>assets/css/eye.css">
 <!-- START CONTAINER FLUID -->
           <div class="container-fluid container-fixed-lg no-padding">
             <!-- BEGIN PlACE PAGE CONTENT HERE -->
@@ -42,9 +43,10 @@
                                 <small class="col-xs-12 col-sm-12" id="state_id_err"></small>
                             </div>
 
-                            <div class="col-sm-12 no-padding">
+                            <div class="inputWithIcon">
                                 <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
                                     <input type="text" class="form-control" name="firstname" placeholder="First Name*">
+                                    <i class="fa fa-user fa-lg fa-fw" aria-hidden="true"></i>
                                     <small class="col-xs-12 col-sm-12 no-padding" id="firstname_err"></small>
                                 </div>
                                 <!--<div class="col-xs-12 col-sm-6 no-padding margin-top-10">
@@ -53,19 +55,21 @@
                                 </div> -->
                             </div>
                           
-                            <div class="col-xs-12 col-sm-12 no-padding">
+                            <div class="inputWithIcon">
                                 <!--<div class="col-xs-12 col-sm-6 no-padding margin-top-10">
                                     <input type="text" class="form-control" name="rollnumber" placeholder="Roll Number">
                                     <small class="col-sm-12 no-padding" id="rollnumber_err"></small>
                                 </div>-->
                                 <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
                                     <input type="text" class="form-control" maxlength="10" name="phonenumber" placeholder="Phone Number*">
+                                    <i class="fa fa-phone fa-lg fa-fw" aria-hidden="true"></i>
                                     <small class="col-xs-12 col-sm-12 no-padding" id="phonenumber_err"></small>
                                 </div>
                             </div>
-                            <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
+                            <div class="inputWithIcon">
                             <div class="col-xs-12 col-sm-12 no-padding ">
                                 <input type="text" class="form-control" name="emailprefix" id="emailprefix" placeholder="Collage Email*">
+                                <i class="fa fa-envelope fa-lg fa-fw" aria-hidden="true"></i>
                                 <input type="hidden" class="form-control" name="emailid" id="emailid">
                             </div>
                                 <small class="col-xs-12 col-sm-12 no-padding" id="emailid_err"></small>
@@ -90,9 +94,10 @@
                                 <small class="col-xs-12 col-sm-12 no-padding" id="roomnumber_err"></small>
                             </div>
 
-                            <div class="col-sm-12 no-padding">
+                            <div class="inputIconPass">
                                 <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
-                                    <input type="password" class="form-control" name="password" placeholder="Password*">
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Password*">
+                                    <i class="fa fa-eye fa-lg fa-fw" id="eye_id" aria-hidden="true"></i>
                                     <small class="col-xs-12 col-sm-12 no-padding" id="password_err"></small>
                                 </div>
                                 <!--<div class="col-xs-12 col-sm-6 no-padding margin-top-10">
@@ -588,4 +593,19 @@ way to clean my clothes without stress.</p>
         return Value * Math.PI / 180;
     }
 
+</script>
+
+<script>
+    var pwd= document.getElementById('password');
+    var eye = document.getElementById('eye_id');
+
+    eye.addEventListener('click',togglePass);
+
+    function togglePass(){
+
+        eye.classList.toggle('active');
+
+        (pwd.type=='password')? pwd.type='text': pwd.type = 'password';
+
+    }
 </script>

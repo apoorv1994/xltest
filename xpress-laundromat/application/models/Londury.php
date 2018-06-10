@@ -12,9 +12,9 @@ class Londury extends CI_Model {
 
     function get_state()
     {
-        return $this->db->select('stateID,stateName,state_longitude,state_latitude,state_radius')
-                ->order_by('stateName','ASC')
-                ->get('state_details')
+        return $this->db->select('cityID,cityName,city_longitude,city_latitude,city_radius')
+                ->order_by('cityName','ASC')
+                ->get('tbl_city')
                 ->result();
     }
 

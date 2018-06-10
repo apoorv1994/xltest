@@ -69,7 +69,7 @@ class Auth extends CI_Controller {
     function get_college($id)
     {
         $res = $this->db->select('id,college_name,Longitude,latitude,Radius')
-                        ->where(['area_code'=>$id])
+                        ->where(['city_code'=>$id])
                         ->order_by('college_name','ASC')
                         ->get('tbl_college')
                         ->result();
