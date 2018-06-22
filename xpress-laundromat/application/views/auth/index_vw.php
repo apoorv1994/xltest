@@ -1,4 +1,20 @@
 <body onclick="showsignup">
+<style>
+div.tickposition {
+    position: absolute;
+    top: 20px;
+    left: 280px;
+    width: 200px;
+    height: 100px;
+}
+div.referral_feat {
+    position : absolute;
+    top: 2px;
+    left: 280px;
+    width: 200px;
+    height: 100px;
+}
+</style>
 <link rel="stylesheet" href="<?=BASE?>assets/plugins/bootstrap-datepicker/css/datepicker3.css" />
 <link rel="stylesheet" href="<?=BASE?>assets/css/eye.css">
 <!-- START CONTAINER FLUID -->
@@ -42,7 +58,12 @@
                                 </select>
                                 <small class="col-xs-12 col-sm-12" id="state_id_err"></small>
                             </div>
-
+                            <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
+                                <select class="form-control select2" id="college_id" name="college_id">
+                                    <option value="">College Name*</option>
+                                </select>
+                                <small class="col-xs-12 col-sm-12" id="college_id_err"></small>
+                            </div>
                             <div class="inputWithIcon">
                                 <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
                                     <input type="text" class="form-control" name="firstname" placeholder="First Name*">
@@ -74,15 +95,7 @@
                             </div>
                                 <small class="col-xs-12 col-sm-12 no-padding" id="emailid_err"></small>
                             </div>
-                            <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
-                                <select class="form-control select2" id="college_id" name="college_id">
-                                    <option value="">College Name*</option>
-                                    <?php foreach($colleges as $college){?>
-                                    <option value="<?=$college->id?>"><?=$college->college_name?></option>
-                                    <?php }?>
-                                </select>
-                                <small class="col-xs-12 col-sm-12" id="college_id_err"></small>
-                            </div>
+                            
                             <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
                                 <select class="form-control select2" id="hostel_id" name="hostel_id">
                                     <option value="">Hostel Block*</option>
@@ -104,6 +117,21 @@
                                     <input type="password" class="form-control" name="cpassword" placeholder="Confirm Password*">
                                     <small class="col-xs-12 col-sm-12 no-padding" id="cpassword_err"></small>
                                 </div> -->
+                            </div>
+                            <div class="col-xs-12 col-sm-12 no-padding">
+                                <div class="col-xs-12 col-sm-6 no-padding margin-top-10">
+                                    <button type="button" class="form-control" style="color:#000080" id="ref_btn">Referral Code </button>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 no-padding margin-top-8">
+                                    <input type="text" class="form-control" name="referral_code" id="referral_id" placeholder="Enter">
+                                    <small class="col-xs-12 col-sm-12 no-padding" id="referral_err"></small>
+                                </div>
+                                <div class = "tickposition" id="rmark" style="display:none">
+                                    <td id="tick_id" style="font-size:150%;font-weight:bold;color:green;" >&#10004;</td>
+                                </div>
+                                <div class = "tickposition" id="xmark" style="display:none">
+                                    <td id="tick_id" style="font-size:150%;font-weight:bold;color:green;" >&#x2718;</td>
+                                </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 no-padding margin-top-10">
                                 <input type="checkbox" name="terms" value="1"> I agree to the Xpressomat <a href="<?=BASE?>terms">Terms of Service</a>*
@@ -144,8 +172,8 @@ Give a Regular High Quality wash to All your clothes to keep them fresh, a Spa l
                 <div class="col-sm-12">
                        <div class="col-xs-12 col-sm-3  " >
                             <div class="col-xs-12 col-sm-12  service-box"> 
-                                <h3 style="color:#333388"  class="text-center">BULK WASHING</h3>
-                                <img src="<?=BASE?>assets/img/bulk.png" >
+                                <h3 style="color:#333388"  class="text-center">LAUNDRY</h3>
+                                <img src="<?=BASE?>assets/img/welcome-screen-08.png" >
                                 <div style="padding: 20px">
                                     Throw all of Your Weekly/Monthly Load of Dirty Clothes to us, and Let us do the rest. The rates are the cheapest with this option. Unit to Measure: Kilograms (KG)
                                 </div>
@@ -154,8 +182,8 @@ Give a Regular High Quality wash to All your clothes to keep them fresh, a Spa l
                         </div>
                         <div class="col-xs-12 col-sm-3 ">
                             <div class="col-xs-12 col-sm-12 service-box "> 
-                                <h3 style="color:#333388"  class="text-center">FEW AT A TIME</h3>
-                                <img src="<?=BASE?>assets/img/few.jpg">
+                                <h3 style="color:#333388"  class="text-center">STEAM WASH</h3>
+                                <img src="<?=BASE?>assets/img/welcome-screen-09.png">
 
                                 <div style="padding: 20px">
                                     If you wish to get a few clothes cleaned, and Ironed by us, choose this service. You can also choose to get your clothes only Ironed. A fixed amount per cloth will apply.
@@ -165,8 +193,8 @@ Give a Regular High Quality wash to All your clothes to keep them fresh, a Spa l
                         </div>
                         <div class="col-xs-12 col-sm-3 ">
                             <div class="col-xs-12 col-sm-12 service-box "> 
-                                <h3 style="color:#333388"  class="text-center">PREMIUM WASH</h3>
-                                <img src="<?=BASE?>assets/img/premium.jpg">
+                                <h3 style="color:#333388"  class="text-center">PREMIUM LAUNDRY</h3>
+                                <img src="<?=BASE?>assets/img/welcome-screen-10.png">
 
                                 <div style="padding: 20px">
                                     For your special Outfits, and Premium Clothes, which you would want to be take extra care of. Simply, fill in the details below, and you will be Good to Go.
@@ -176,7 +204,7 @@ Give a Regular High Quality wash to All your clothes to keep them fresh, a Spa l
                         <div class="col-xs-12 col-sm-3 ">
                             <div class="col-xs-12 col-sm-12 service-box "> 
                                 <h3 style="color:#333388"  class="text-center">DRY CLEANING</h3>
-                                <img src="<?=BASE?>assets/img/dryclean.jpg">
+                                <img src="<?=BASE?>assets/img/welcome-screen-11.png">
 
                                 <div style="padding: 20px">
                                     For the Best Dry Cleaning Services, at the Best Rates, Pick this one right now. Our Pilot will soon Pick your Parcel, and you will have the Dry Cleaned Clothes, at the Quickest.
@@ -339,42 +367,45 @@ way to clean my clothes without stress.</p>
                   })
                   $('#showsignup').click(function(){
                     if (navigator.geolocation) {
+                        //alert("inside navigator geolcation");
                         navigator.geolocation.getCurrentPosition(function(position) {
                         $('.signin').hide('fade');
                         $('.signup').show('fade');
                         option_allow = 1;
                         var id = 1;
-                        var url = '<?=BASE?>auth/get-location-info';
+                        //var url = '<?=BASE?>auth/get-location-info';
                         var current_lat = position.coords.latitude;
                         var current_long = position.coords.longitude;
                         global_lat = current_lat;
                         global_long = current_long;
-                        //window.alert("Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude);
+                        //alert("Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude);
                         // display signup form
-                        var url = '<?=BASE?>auth/get-location-info';   // get city details from the database table
-                        //window.alert(url);
+                        var url = '<?=BASE?>Auth/get_location_info';   // get city details from the database table
+                        //alert(url);
                         $.get(url,function(success){
-                            var opt ='<option value="">City Name*</option>';
+                            var opt ='';
                             var res = JSON.parse(success);
+                            //alert(res.status);
                             if(res.status)
                             {
                                 var len = res.data.length;
                                 //window.alert(len);
                                 for(var i=0;i<len;i++)
                                 {
-                                    var city_lat = res.data[i].state_latitude;
-                                    var city_long = res.data[i].state_longitude;
-                                    var city_radius = res.data[i].state_radius;
+                                    var city_lat = res.data[i].city_latitude;
+                                    var city_long = res.data[i].city_longitude;
+                                    var city_radius = res.data[i].city_radius;
                                     //window.alert(city_radius);
                                     var distance = calcDistance(city_lat,city_long,current_lat,current_long);
                                     //var distance =20;
                                     //window.alert(distance);
                                     if(distance>0 && distance<city_radius)
                                     {
-                                        opt+='<option value="'+res.data[i].stateID+'">'+res.data[i].stateName+'</option>';
+                                        opt+='<option value="'+res.data[i].cityID+'">'+res.data[i].cityName+'</option>';
                                         break;
                                     }
                                 }
+                                //alert(opt);
                                 $('#state_id').html(opt);
                                 $('#state_id').val();
                                 $('#state_id').change();
@@ -389,7 +420,7 @@ way to clean my clothes without stress.</p>
                         $('.signin').hide('fade');
                         $('.signup').show('fade');
                         var id = 0;
-                        var url = '<?=BASE?>auth/get-location-info';
+                        var url = '<?=BASE?>Auth/get-location-info';
                         //window.alert(url);
                         $.get(url,function(success){
                             var opt ='<option value="">City Name*</option>';
@@ -401,7 +432,7 @@ way to clean my clothes without stress.</p>
                                 //window.alert(len);
                                 for(var i=0;i<len;i++)
                                 {
-                                     opt+='<option value="'+res.data[i].stateID+'">'+res.data[i].stateName+'</option>';
+                                     opt+='<option value="'+res.data[i].cityID+'">'+res.data[i].cityName+'</option>';
                                 }
                                 $('#state_id').html(opt);
                                 $('#state_id').val();
@@ -438,10 +469,10 @@ way to clean my clothes without stress.</p>
                     //$('#college_id').html(opt);
                     var id = $(this).val();
                     //window.alert(id);
-                    var url = '<?=BASE?>auth/get-college/'+id;
+                    var url = '<?=BASE?>Auth/get-college/'+id;
                     //window.alert("hiiii : "+url);
                     $.get(url,function(success){
-                        var opt_1 ='<option value="">College Name*</option>';
+                        var opt_1 ='';
                         var opt_2 ='<option value="">College Name*</option>';
                         //var opt ='<option value="">College Name*</option>';
                         var check=0;
@@ -475,6 +506,10 @@ way to clean my clothes without stress.</p>
                                     //window.alert(opt_1);
                                     //window.alert(opt_2);
                                     if(check !=0){
+					if(check > 1){
+					var st = '<option value="">College Name*</option>';
+					opt_1=st+opt_1;
+					}
                                         $('#college_id').html(opt_1);
                                     }else{
                                         $('#college_id').html(opt_2);
@@ -491,7 +526,7 @@ way to clean my clothes without stress.</p>
                       //$('#emailid').val('');
                         var id = $(this).val();
                         //window.alert(option_allow);
-                        var url = '<?=BASE?>auth/get-hostel/'+id;
+                        var url = '<?=BASE?>Auth/get-hostel/'+id;
                         //window.alert(url);
                         $.get(url,function(success){
                             var opt ='<option value="">Hostel Name*</option>';
@@ -513,16 +548,40 @@ way to clean my clothes without stress.</p>
                             }
                       })
                   });
+
+                  // for checking validity of referral code
+                  $('#ref_btn').click(function(){
+                    var ref_data = document.getElementById("referral_id").value;
+                    var url = '<?=BASE?>Auth/check-referral-validity/'+ref_data;
+                   //alert(url);
+                    $.get(url,function(success){
+                        var res = JSON.parse(success);
+                        //alert(res.status);
+                        if(res.status)
+                        {
+                            var x = document.getElementById("rmark");
+                            var y = document.getElementById("xmark");
+                            x.style.display="block";
+                            y.style.display="none";
+                        }
+                        else{
+                            var x = document.getElementById("rmark");
+                            var y = document.getElementById("xmark");
+                            y.style.display="block";
+                            x.style.display="none";
+                        }
+                    });
+                  });
                   //for registration 
                   $('.signupbtn').click(function(){
                       $('#loader').addClass('fa-spin fa-spinner');
                       $('#main_err').html('');
-                      var url = '<?=BASE?>auth/signup';
-                      //window.alert(url);
+                      var url = '<?=BASE?>Auth/signup';
+                      //alert(url);
                       var data = $('#signupFrm').serialize();
                       $.post(url,data,function(success){
                             var res = JSON.parse(success);
-                            //window.alert(res.status)
+                            //alert(res.status)
                             if(res.status)
                             {
                                 $('#loader').removeClass('fa-spin fa-spinner');
@@ -547,7 +606,7 @@ way to clean my clothes without stress.</p>
                   $('.loginbtn').click(function(){
                       $('#loader_log').addClass('fa-spin fa-spinner');
                       $('#main_log_err').html('');
-                      var url = '<?=BASE?>auth/login';
+                      var url = '<?=BASE?>Auth/login';
                       var data = $('#loginFrm').serialize();
                       console.log(data);
                       $.post(url,data,function(success){

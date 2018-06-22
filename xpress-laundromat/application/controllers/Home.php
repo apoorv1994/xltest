@@ -14,7 +14,9 @@ class Home extends CI_Controller {
         $pagedata['bulk'] = 'current-slot';
         $last_order = $this->last_order();
         $pagedata['last_order'] = $last_order['last_order'];
-        
+       
+        $ref_code = $this->user_referral();
+        $pagedata['referral_code'] = $ref_code; 
         $pagedata['u_pickup_t'] = $last_order['pickup_t'];
         $pagedata['u_delivery_date'] = $last_order['shop_close_date'];
 
@@ -29,9 +31,45 @@ class Home extends CI_Controller {
         $pagedata['weight'] = $this->londury->get_options('slot_weight',  $this->session->college_id);
         $pagedata['shopstatus'] = $this->londury->get_options('shop_status',$this->session->college_id);
         //echo json_encode($pagedata['hostel_details']);
+
         $this->load->view('header_vw',$pagedata);
         $this->load->view('home/bookslot_vw',$pagedata);
         $this->load->view('footer_vw');
+    }
+
+    function alert_cashback()
+    {
+        // CASHBACK - After order status is completed--- amount directly added in the wallet
+        $cashdata = $this->db->select('order_id,user_id,cashback_status')->where(['user_id'=>$this->session->user_id])->get('tbl_dynamic_ref')->result();
+        $all_cb = '';
+        $count = 0;
+        foreach($cashdata as $cdata)       // referral_used is pickup date time stored 
+        {   
+            $ordid = $cdata->order_id;
+            $orderdata = $this->db->select('status')->where(['id'=>$ordid])->get('tbl_order')->row();
+            if($orderdata->status == 5) // 5 means order has been delivered
+            {
+                //$tm = time() + 24*60*60 ;     // after 24hrs of time of pickup user will get cashback
+                //$cashback_date = $cback->referral_used ;
+                $cbdata = $this->db->select('cashback_amount')->where(['order_id'=>$ordid])->get('tbl_referral_details')->row();
+                $cashback_amt = $cbdata->cashback_amount;
+                $msg_cb = "Rs ".$cashback_amt." is added in your wallet as cashback.<br>";
+                
+                $this->londury->apply_referral($this->session->user_id,$cashback_amt);
+                $this->db->delete('tbl_dynamic_ref',['user_id'=> $this->session->user_id,'order_id'=>$ordid]);
+            
+                $all_cb = $all_cb.$msg_cb;
+                $count+=1;
+            }
+        }
+
+        if($count > 0)
+        {
+            echo json_encode(["status"=>true,"message"=>$all_cb]);
+        }
+        else{
+            echo json_encode(["status"=>false]);
+        }    
     }
 
     function check_close()
@@ -51,6 +89,12 @@ class Home extends CI_Controller {
             echo json_encode(['status'=>true,'shop'=>true]);
         else
             echo json_encode(['status'=>true,'shop'=>false]);
+    }
+
+    function user_referral()
+    {
+    	$refdata = $this->db->select('referral_code')->where(['id'=>$this->session->user_id])->get('tbl_users')->row();
+    	return $refdata->referral_code;
     }
 
     function get_user() 
@@ -505,8 +549,11 @@ function get_delivery_date($book,$close_info,$type)
                     $total_amount = 0;
                     $discount = $orderAmount;
                 }
+                //echo "<script type='text/javascript'>alert('Referral System');</script>";
+                $payment_type = 0;
                 if($this->input->post('payment_method')=='wallet')
                 {
+                    $payment_type = 1;
                     if($details->wallet_balance >= $total_amount)
                     {
                         if($total_amount>0)
@@ -514,6 +561,32 @@ function get_delivery_date($book,$close_info,$type)
 							$TotalPriceAmount=$total_amount + $totalSGST + $totalCGST + $totalIGST;
                             $balance = $details->wallet_balance - $TotalPriceAmount;
                             $this->londury->update_wallet($balance);
+                            // apply referral system here when its user first order
+                            $num_order = $this->londury->get_count_order($this->session->user_id);  // gets number of orders from tbl_orders by a user
+                            if ($num_order == 1)    // true only if it is his first order
+                            {
+                                $ref_info = $this->londury->get_referral_info($this->session->user_id);
+                                
+                                $id1= $ref_info->referrer_id;
+                                $id2 = $ref_info->referree_id;
+                                $this->londury->test_working($id1,$id2);
+                                if($ref_info)
+                                {
+                                    // add money to current user and also add money to referral_id
+                                    $cashback = $total_amount * 0.1;
+                                    $max_cashback = 100;  // maximum cashback a user can get if $cashback > 100
+                                    if($cashback > $max_cashback)
+                                    {
+                                        $cashback = $max_cashback;
+                                    }
+                                    $order_info = $this->londury->get_details_first_order($this->session->user_id);
+                                    $orderid = $order_info->id;
+                                    $this->db->update('tbl_referral_details',['order_id'=>$orderid,'cashback_amount'=>$cashback],['referrer_id'=>$id1]);
+                                    $this->db->insert('tbl_dynamic_ref',['order_id'=>$orderid,'user_id'=>$id1,'cashback_status'=>1]);
+                                    $this->db->insert('tbl_dynamic_ref',['order_id'=>$orderid,'user_id'=>$id2,'cashback_status'=>1]);
+                                }                    
+                            }
+
                         }
                         $this->londury->update_order_with_gst(1,$discount,$coupon,$total_amount,$iron,$cost,$details->college_id,$totalSGST,$totalCGST,$totalIGST);
                     }else{
@@ -558,6 +631,7 @@ function get_delivery_date($book,$close_info,$type)
 				} 
 				
                 echo json_encode(['status'=>TRUE,'msg'=>'<div class="alert alert-success">Order Completed</div>']);
+
             }else{
                 echo json_encode(['status'=>FALSE,'error'=>'<span class="err">Invalid Request</span>']);
             }
@@ -633,7 +707,10 @@ function get_delivery_date($book,$close_info,$type)
         $order_d = $this->db->select('created,book_date,book_slot,pickup_type,total_amount,payment_type,user_id,discount')
                 ->where(['id'=>$id,'user_id'=>  $this->session->user_id])->get('tbl_order');
 		print_r($order_d->num_rows());		
-        if($order_d->num_rows()>0)
+           // after cancellation update tbl_dynamic_ref i.e. delete rows corresponding to order_id = $id
+        $this->db->delete('tbl_dynamic_ref',['order_id'=>$id]);
+
+	if($order_d->num_rows()>0)
         {
             $data = $order_d->row();
             $time = date('Y-m-d',$data->book_date).' '.date('H:i',$newarr[$data->book_slot]-(2*3600));
@@ -703,9 +780,10 @@ function get_delivery_date($book,$close_info,$type)
         $this->form_validation->set_rules('pickup','Pick Type','trim|required|xss_clean');
         $this->form_validation->set_message('required', 'Please select %s ');
         $this->form_validation->set_error_delimiters('', '');
+	//$this->db->insert('tbl_string',['message'=>"Just outside validation order : "]);
         if($this->form_validation->run())
         {
-			
+	   // $this->db->insert('tbl_string',['message'=>"Inside validation order : "]);
             $service =2;
             if($this->input->post('order_type')=='bulkwashing')
             {
@@ -714,6 +792,7 @@ function get_delivery_date($book,$close_info,$type)
             //echo $this->input->post('slotday');
             $slot = $this->londury->check_slot($this->input->post('slotday'),$service,$this->input->post('college_id'),$this->input->post('hostel_id'));
             $aval = 'yes';
+	    //$this->db->insert('tbl_string',['message'=>"Below Slot check : ".$slot['morning']]);
             switch($this->input->post('slotInput'))
             {
                 case 1:

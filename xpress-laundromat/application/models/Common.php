@@ -28,6 +28,11 @@ class Common extends CI_Model {
             return $this->db->insert($data['table'],$data['val']);
 	}
 	
+    function add_referral_data($data)
+    {
+        return $this->db->insert($data['table'],$data['val2']);
+    }
+
 	function add_data_get_id($data)
 	{
 		
@@ -37,6 +42,24 @@ class Common extends CI_Model {
             return  $insert_id;
 	}
 	
+    function get_referree_info($data)
+    {
+        // add referral code instead of phone no
+        $res = $this->db->select('id,firstname,phone_no')
+                        ->where(['referral_code'=>$data])
+                        ->get('tbl_users')
+                        ->row();
+        return $res;
+    }
+
+    function get_referrer_info($data)
+    {
+        $res = $this->db->select('id,firstname,phone_no')
+                        ->where(['phone_no'=>$data])
+                        ->get('tbl_users')
+                        ->row();
+        return $res;       
+    }
 	function get_data($data)
 	{
             if($data['orderby']!='')

@@ -26,7 +26,7 @@ foreach($slots as $slot)
 }
 //echo "<pre>";
 //print_r($last_order);
-$finalAmount="0";
+$referralcode= $referral_code;
 
 if($last_order->status=='2' || $last_order->status=='4' || $last_order->status=='5')
 {
@@ -62,8 +62,8 @@ else
                     <div class="col-xs-6 col-sm-6 no-padding">: <i class="fa fa-inr"></i> <?=$details->wallet_balance?></div>
                 </div>
                 <div class="col-xs-12 col-sm-12 no-padding">
-                    <div class="col-xs-6 col-sm-6 no-padding">Last Order</div>
-                    <div class="col-xs-6 col-sm-6 no-padding">: <i class="fa fa-inr"></i> <?php echo $finalAmount;?></div>
+                    <div class="col-xs-6 col-sm-6 no-padding">Referral Code</div>
+                    <div class="col-xs-6 col-sm-6 no-padding">: <i class=""></i> <?php echo $referralcode;?></div>
                 </div>
                 <div class="col-xs-12 col-sm-12  m-t-10 no-padding">
                     <a class="form-control rechargeBtn" href="<?=BASE?>user" title="Recharge Wallet">Recharge Wallet</a>
@@ -133,7 +133,7 @@ else
                 <div  class="col-sm-12 no-padding"><?=$u_pickup_t[$last_order->book_slot]?></div>
             </div>
             <?php }else{?>
-                <h3 class="col-sm-12 text-center  p-t-80 p-b-80"> Welcome to Xpress Laundromat </h3>
+                <h3 class="col-sm-12 text-center  p-t-80 p-b-80"> Welcome to Xpress Laundromat88 </h3>
             <?php }?>
         </div>
         <div class="col-xs-12 col-sm-6  border-left visible-xs visible-sm" id="statusbar">
@@ -172,14 +172,14 @@ else
                 <img class=" text-center" src="<?=BASE?>assets/img/loc.png" />
                 <span class="bold col-sm-12 col-xs-12 m-t-10">PICK UP</span>
                 <div class="col-sm-12"><?=date('d/m/Y',$last_order->book_date)?></div>
-                <div  class="col-sm-12 no-padding"><?=$hslots[$last_order->book_slot]?></div>
+                <div  class="col-sm-12 no-padding"><?=$u_pickup_t[$last_order->book_slot]?></div>
             </div>
         
             <div class="col-sm-4  col-xs-6 text-center no-padding p-t-20 p-b-10">
                 <img class=" text-center" src="<?=BASE?>assets/img/bus.png" />
                 <span class="bold col-sm-12 col-xs-12 ">DELIVERY</span>
-                <div class="col-sm-12"><?=$last_order->dropoff_time?date('d/m/Y',$last_order->dropoff_time):date('d/m/Y',($last_order->book_date + 48*60*60))?></div>
-                <div  class="col-sm-12 no-padding"><?=$last_order->dropoff_time?date('h:i A',$last_order->dropoff_time).' - '.date('h:i A',$last_order->dropoff_time + 3*3600):$hslots[$last_order->book_slot]?></div>
+                <div class="col-sm-12"><?=date('d/m/Y',$u_delivery_date)?></div>
+                <div  class="col-sm-12 no-padding"><?=$u_pickup_t[$last_order->book_slot]?></div>
             </div>
             <?php }else{?>
                 <h3 class="col-sm-12 text-center  p-t-80 p-b-80"> Welcome to Xpress Laundromat </h3>
@@ -193,23 +193,23 @@ else
                     <div class="container" style="">
                         <div data-href="<?=BASE?>home" class="col-sm-3 bookmenu <?=$bulk?> first-slot">
                             <img src="<?=BASE?>assets/img/box.png" class="" />
-                            <span class="col-sm-12">Bulk Washing</span>
-                            <p>Rates Per KG. (Rs. 100/4Kg)</p>
+                            <span class="col-sm-12">LAUNDRY</span>
+                            <!--<p>Rates Per KG. (Rs. 100/4Kg)</p> -->
                         </div>
                         <div data-href="<?=BASE?>home/individual" class="col-sm-3 bookmenu <?=$shoelaundry?> last-slot">
                             <img src="<?=BASE?>assets/img/shirt.png" class="" />
-                            <span class="col-sm-12">Individual Washing</span>
-                            <p>Rates Per Piece (Rs. 7/Cloth)</p>
+                            <span class="col-sm-12">STEAM WASH</span>
+                            <!--<p>Rates Per Piece (Rs. 7/Cloth)</p> -->
                         </div>
                         <div data-href="<?=BASE?>home/premium" class="col-sm-3 bookmenu <?=$individual?>">
                             <img src="<?=BASE?>assets/img/washing.png" class="" />
-                            <span class="col-sm-12">Premium Washing</span>
-                            <p>Special Outfits/Stain Removal.</p>
+                            <span class="col-sm-12">PREMIUM LAUNDRY</span>
+                            <!--<p>Special Outfits/Stain Removal.</p> -->
                         </div>
                         <div data-href="<?=BASE?>home/drycleaning" class="col-sm-3 bookmenu <?=$drycleaning?>">
                             <img src="<?=BASE?>assets/img/brush.png" class="" />
-                            <span class="col-sm-12">Dry Cleaning</span>
-                            <p>Chemical and Dry Wash.</p>
+                            <span class="col-sm-12">DRY CLEANING</span>
+                            <!--<p>Chemical and Dry Wash.</p> -->
                         </div>
                     </div>
                 </div>
@@ -465,6 +465,7 @@ else
 <script src="<?=BASE?>assets/js/quantity.js" ></script>
 <script>
     $(document).ready(function(){
+        flash_cashback();
 
         $('#w_fold').on('click', function(e){
             $('#total_price').html(<?=$price_fold?> +' per '+ <?=$weight?>+'KG');
@@ -524,7 +525,7 @@ else
         
         $('#orderBtn').click(function(){
             var url = '<?=BASE?>home/order';
-            window.alert(url);
+            //window.alert(url);
             var data = $('#orderFrm').serialize();
 			var quantity_shirt =parseInt($("input[name=quantity_shirt]").val());
 			var quantity_pants =parseInt($("input[name=quantity_pants]").val());
@@ -559,16 +560,16 @@ else
 				}
 			}
 			var url2 = '<?=BASE?>home/get_user';
-            window.alert(url2);
+            //window.alert(url2);
             $.get('<?=BASE?>home/get_user', function(dat){
                 dat = JSON.parse(dat);
                 data += '&college_id='+dat.college_id;
                 data += '&hostel_id='+dat.hostel_id;
-                window.alert(url);
-                window.alert(data);
+                //window.alert(url);
+                //window.alert(data);
                 $.post(url,data,function(success){
                     var res = JSON.parse(success);
-                    window.alert(res);
+                    //window.alert(res);
                     if(res.status)
                     {
                         window.location.href = '<?=BASE?>home/order_summary';
@@ -640,7 +641,24 @@ else
             }
         })
     });
-    
+
+    function flash_cashback()
+    {
+        var url_cb = "<?=BASE?>home/alert-cashback";
+        //alert(url_cb);
+        $.get(url_cb,function(success){
+            var res = JSON.parse(success);
+            //alert(res.status);
+            if(res.status)
+            {
+                //await sleep(2000);
+                alert(res.message+"\nKeep Referring");
+                location.reload(true);
+            }
+
+        });
+    }
+
     function get_slot_availability(day,service)
     {
         var url = '<?=BASE?>home/check-slot';

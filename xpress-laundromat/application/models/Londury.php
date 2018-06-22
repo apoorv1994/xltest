@@ -32,6 +32,16 @@ class Londury extends CI_Model {
                 ->get('tbl_hostel')
                 ->result();
     }
+
+    function get_details_first_order($id)
+    {
+        return $this->db->select('id,total_amount,book_date,bookDateON')
+                ->where(['user_id'=>$id])
+                ->get('tbl_order')
+                ->row();        
+    }
+
+
     function get_suffix($id)
     {
         return $this->db->select('value')->where(['college_id'=>$id,'options'=>'email_suffix'])->get('tbl_settings')->row()->value;
@@ -591,6 +601,52 @@ class Londury extends CI_Model {
     {
         return $this->db->select('a.id')->from('tbl_order a')->join('tbl_users b','a.user_id=b.id')->where(['book_date'=>$day,'book_slot'=>$slot,'a.status <>'=>6])->where(['a.status <>'=>0,'b.college_id'=>$college_id])->where_in('a.order_type ',[1,4])->count_all_results();
     }
+
+    function get_referral_info($id)
+    {
+        $res = $this->db->select('referrer_id,referree_id')
+                        ->where(['referrer_id'=>$id])
+                        ->get('tbl_referral_details');
+        return $res->row();
+    }
+
+    function get_count_order($id)
+    {
+        //$this->db->insert('tbl_string',['message'=>"get_count_order : ".$id]);
+        $num = $this->db->select('id')->from('tbl_order')->where(['user_id'=>$id])->count_all_results();
+        //$this->db->insert('tbl_string',['message'=>"get_count_order : ".$num]);
+        return $num;
+    }
+
+    function get_cashback_info($oid)
+    {
+        $res = $this->db->select('order_id,cashback_amount')->where(['order_id'=>$oid])->get('tbl_referral_details')->row();
+
+    }
+
+    function test_working($data1,$data2)
+    {
+        $this->db->insert('tbl_checking',['value_1'=>$data1,'value_2'=>$data2]);
+    }
+
+    function apply_referral($id,$cashback)
+    {
+        $user = $this->londury->get_details_of_user($id);
+        //$user2 = $this->londury->get_details_of_user($id2);
+        //$this->db->insert('tbl_string',['message'=>"User 1 wallet_balance : ".$user->wallet_balance]);
+        //$this->db->insert('tbl_string',['message'=>"User 2 wallet_balance : ".$user2->wallet_balance]);
+        $final = $user->wallet_balance+$cashback;
+        //$final2 = $user2->wallet_balance+$cashback;
+        $log = 'UserID: '.$id.', Cashback amount: '.$cashback;
+        //$log2 = 'UserID: '.$id2.', Cashback amount: '.$cashback;
+        $this->londury->wallet_log($log);
+        //$this->londury->wallet_log($log2);
+        $this->db->update('tbl_users',['wallet_balance'=>$final],['id'=>  $id]);
+        //$this->db->update('tbl_users',['wallet_balance'=>$final2],['id'=>  $id2]);
+        //$this->db->insert('tbl_string',['message'=> $log1]);
+        //$this->db->insert('tbl_string',['message'=>$log2]);
+        //$this->db->insert('tbl_string',['message'=>"Referral Successfully used : ".$cashback_amt]);
+    }
     
     function update_wallet($amount)
     {
@@ -599,6 +655,15 @@ class Londury extends CI_Model {
         $log = 'UserID: '.$this->session->user_id.', Debited amount: '.$final;
                 $this->londury->wallet_log($log);
         $this->db->update('tbl_users',['wallet_balance'=>$amount],['id'=>  $this->session->user_id]);
+    }
+
+    function get_details_of_user($userid)
+    {
+        $this->db->select('a.id,a.status,a.created,a.firstname,a.wallet_balance,a.profile_pic,a.phone_no,,a.email_id,a.hostel_id,a.college_id,b.college_name,c.hostel_name')
+            ->join('tbl_college b','a.college_id=b.id')
+            ->join('tbl_hostel c','a.hostel_id=c.id')
+                ->where(['a.id'=>$userid]);
+        return $this->db->get('tbl_users a')->row();
     }
 
     function update_wallet_by_id($amount,$id)
@@ -2275,7 +2340,8 @@ class Londury extends CI_Model {
                 ->where(['user_id'=>  $this->session->user_id])
                 ->order_by('a.id','desc')->get('tbl_order a')->row();
     }
-	
+    
+
 	function update_order_with_gst($type,$discount,$coupon,$total_amount,$iron,$cost,$college_id,$SGST,$CGST,$IGST)
     {
 		$GST_Number = "0";

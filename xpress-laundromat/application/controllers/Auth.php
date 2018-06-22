@@ -41,6 +41,7 @@ class Auth extends CI_Controller {
         
         
         $pagedata['title']='Login';
+        //print_r($test);
         $pagedata['colleges'] = $this->db->get_where('tbl_college',['status'=>1])->result();
         $this->load->view('header_vw',$pagedata);
         $this->load->view('auth/index_vw');
@@ -63,6 +64,21 @@ class Auth extends CI_Controller {
             echo json_encode(['status'=>TRUE,'data'=>$res]);
         }else{
             echo json_encode(['status'=>FALSE]);
+        }
+    }
+
+    function check_referral_validity($ref)
+    {
+    	$res = $this->db->select('id')
+    					->where(['referral_code'=>$ref])
+    					->get('tbl_users')
+    					->result();
+
+        if($res)
+        {
+            echo json_encode(['status'=>TRUE,'data'=>$res]);
+        }else{
+            echo json_encode(['status'=>FALSE,'data'=>$res]);
         }
     }
 
@@ -126,7 +142,7 @@ class Auth extends CI_Controller {
         if($this->form_validation->run())
         {
             $username=  $this->input->post('email');
-            $password= ($this->input->post('password'));
+            $password= md5($this->input->post('password'));
             $log_check=$this->_login($username, $password);
             if($log_check['status'])
             {
@@ -200,23 +216,84 @@ class Auth extends CI_Controller {
         $this->form_validation->set_rules('phonenumber', 'Phone No', 'trim|required|numeric|xss_clean|is_unique[tbl_users.phone_no]');
         $this->form_validation->set_rules('hostel_id', 'Hostel', 'trim|required|xss_clean');
         $this->form_validation->set_rules('roomnumber', 'Room Number', 'trim|required|xss_clean');
-        //$this->form_validation->set_rules('rollnumber', 'Roll Number', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('referral_code', 'Referral Code', 'trim|required|xss_clean');
         $this->form_validation->set_rules('terms', 'Terms and Condition', 'trim|required|xss_clean');
 //        $this->form_validation->set_message('is_unique', 'The %s already taken, Try another.');
         if($this->form_validation->run())
         {
             //$new_dob = strtotime($this->input->post('dob'));
+            // for referral code generation 
+            $name = strtolower($this->input->post('firstname'));
+            $ran_num = rand(10,100);
+            $nameparts = explode(" ",$name);
+            $size = sizeof($nameparts);
+            $ref_name='';
+            //print_r(substr($nameparts[0],0,4));
+            if($size>1){
+                $len1 = strlen($nameparts[0]);
+                $len2 = strlen($nameparts[1]);
+                if($len1>3){
+                   $first = substr($nameparts[0],0,4); 
+                }
+                else{
+                    $first = $nameparts[0];
+                }
+                if($len2 > 3){
+                   $second = substr($nameparts[1],0,4); 
+                }
+                else{
+                    $second = $nameparts[1];
+                }
+                $ref_name = $first.$ran_num.$second;   
+                
+            }
+            else{
+                $ref_name = $name.$ran_num.'xp';
+            }
+        
+            $check_unique = $this->db->get_where('tbl_users',['referral_code'=>$ref_name])->result();
+
+            if($check_unique){
+                $num = rand(0,50);
+                $ref_name = $ref_name.$num;
+            }
+
             $code=rand(0000,999999);
             $profile = BASE.'assets/img/default.jpg';
-            $val=['firstname'=>$this->input->post('firstname'),'profile_pic'=>$profile,'email_id'=>$this->input->post('emailid'),
-                'password'=>md5($this->input->post('password')),
-                'room_no'=>  $this->input->post('roomnumber'),'college_id'=>  $this->input->post('college_id'),'hostel_id'=>  $this->input->post('hostel_id'),
-                'phone_no'=>  $this->input->post('phonenumber') ,'created'=>time(),'status'=>'1','verification_key'=>$code];
+            $val=['firstname'=>$this->input->post('firstname'),'profile_pic'=>$profile,'email_id'=>$this->input->post('emailid'),'password'=>md5($this->input->post('password')),'room_no'=>  $this->input->post('roomnumber'),'college_id'=>  $this->input->post('college_id'),'hostel_id'=>  $this->input->post('hostel_id'),'phone_no'=>  $this->input->post('phonenumber') ,'created'=>time(),'status'=>'1','verification_key'=>$code,'referral_available'=>0,'referral_code'=>$ref_name];
             $data=['val'=>$val,'table'=>'tbl_users'];
             $this->common->add_data($data);
+            //if(referral_code)
+            $ref_code = $this->input->post('referral_code');
+            $phon = $this->input->post('phonenumber');
+            $ref_data = $this->common->get_referree_info($ref_code);
+            if ($ref_data)
+            {
+                // get data of person by using referral code
+                // get data of second person by using phone_no from above
+                // use both th data to add info of referral to tbl_referral
+                $id1=0;
+                $id2=0;
+                if($ref_data)
+                {
+                    $id2=$ref_data->id;
+                }
+
+                $res1 = $this->common->get_referrer_info($phon);
+                if($res1)
+                {
+                    $id1=$res1->id;
+                    //$id1=223;
+                }
+                $val2=['order_id'=>0,'referrer_id'=>$id1,'referree_id'=>$id2,'cashback_amount'=>0];
+                $data2=['val2'=>$val2,'table'=>'tbl_referral_details'];
+                $this->common->add_referral_data($data2);
+                
+            }
             
                 $emailid=$this->input->post('emailid');
                 $pass=$this->input->post('password');
+
                 $dropmsg1 = "Hello ".$this->input->post('firstname').", Welcome to XL. Complete freedom from Laundry. Login to http://xpresslaundromat.in with Username: $emailid Password: $pass Download the APP:";
                 $msg1 = urlencode($dropmsg1);
                 $mobile1 = $this->input->post('phonenumber');
